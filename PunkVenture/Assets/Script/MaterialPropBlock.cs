@@ -2,22 +2,22 @@ using UnityEngine;
 
 public class MaterialPropBlock : MonoBehaviour
 {
-    private Renderer rend;
-    private MaterialPropertyBlock propBlock;
+    private Renderer m_renderer;
+    private MaterialPropertyBlock m_propBlock;
 
-    public Texture customTex;
-    public float customValue;
+    public Texture m_tex;
+    public float m_value;
 
     void Start()
     {
-        rend = GetComponent<Renderer>();
-        propBlock = new MaterialPropertyBlock();
+        m_renderer = GetComponent<Renderer>();
+        m_propBlock = new MaterialPropertyBlock();
     }
 
     void Update()
     {
-        propBlock.SetTexture("_MainTex", customTex);
-        propBlock.SetFloat("_Speed", customValue);
-        rend.SetPropertyBlock(propBlock);
+        m_propBlock.SetTexture("_MainTex", m_tex);
+        m_propBlock.SetFloat("_Speed", m_value);
+        m_renderer.SetPropertyBlock(m_propBlock);
     }
 }

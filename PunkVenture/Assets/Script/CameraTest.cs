@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class CameraTest : MonoBehaviour
 {
-    [SerializeField]
-    float speed = 5.0f;
+    public float m_speed = 5.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +14,6 @@ public class CameraTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position += new Vector3(Time.deltaTime * speed, 0);
+        transform.position += new Vector3(Time.deltaTime * m_speed, 0);
     }
 }
