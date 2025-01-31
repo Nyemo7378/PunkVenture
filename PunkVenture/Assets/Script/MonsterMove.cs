@@ -47,6 +47,14 @@ public class MonsterMove : MonoBehaviour
         }
     }
 
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            m_detected = false;
+        }
+    }
+
     void FollowPlayer()
     {
         float targetDir = m_target.position.x - transform.position.x;
@@ -61,6 +69,11 @@ public class MonsterMove : MonoBehaviour
         else
         {
             m_dir = 1;
+        }
+
+        if(Mathf.Abs(targetDir) > 10.0f)
+        {
+
         }
     }
     void FollowNothing()
