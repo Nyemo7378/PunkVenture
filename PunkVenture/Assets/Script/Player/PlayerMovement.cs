@@ -56,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(jumpKey) && isGrounded)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
+            rb.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);
             isGrounded = false;
         }
     }
