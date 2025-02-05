@@ -5,24 +5,24 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     [Header("캐릭터 스텟")]
-    [SerializeField] private float health = 100f; // 체력
-    [SerializeField] private float defense = 0f; // 방어력
-    [SerializeField] private float moveSpeed = 10f; // 이동속도
-    [SerializeField] private float jumpHeight = 5f; // 점프높이
-    [SerializeField] private float attackRange = 1.5f; // 공격 범위 값
-    [SerializeField] private float attackDamage = 20f; // 공격력
-    [SerializeField] private float attackSpeed = 1.0f; // 애니메이션 재생속도
-    [SerializeField] private bool attacking = false; // 공격 애니메이션 중인지 확인
+    [SerializeField] private float health = 100f;
+    [SerializeField] private float defense = 0f;
+    [SerializeField] private float moveSpeed = 10f;
+    [SerializeField] private float jumpHeight = 5f;
+    [SerializeField] private float attackRange = 1.5f;
+    [SerializeField] private float attackDamage = 20f;
+    [SerializeField] private float attackSpeed = 1.0f;
+    [SerializeField] private bool attacking = false;
 
     [Header("공격 콜라이더")]
-    [SerializeField] private GameObject attackColliderPrefab; // 공격 충돌 판정용 프리팹
+    [SerializeField] private GameObject attackColliderPrefab;
     private GameObject currentAttackCollider;
 
     [Header("키 값")]
-    [SerializeField] private KeyCode moveLeftKey = KeyCode.A; // 좌
-    [SerializeField] private KeyCode moveRightKey = KeyCode.D; // 우
-    [SerializeField] private KeyCode jumpKey = KeyCode.Space; // 점프
-    [SerializeField] private KeyCode attackKey = KeyCode.Mouse0; // 마우스 왼쪽 클릭
+    [SerializeField] private KeyCode moveLeftKey = KeyCode.A;
+    [SerializeField] private KeyCode moveRightKey = KeyCode.D;
+    [SerializeField] private KeyCode jumpKey = KeyCode.Space;
+    [SerializeField] private KeyCode attackKey = KeyCode.Mouse0;
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -31,9 +31,9 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>(); // 컴포넌트 참조
-        animator = GetComponent<Animator>(); // 애니메이터 참조
-        animator.SetFloat("AttackSpeed", attackSpeed); // 애니메이션 속도 설정
+        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        animator.SetFloat("AttackSpeed", attackSpeed);
     }
 
     private void Update()
@@ -54,8 +54,15 @@ public class PlayerManager : MonoBehaviour
 
         transform.Translate(Vector2.right * moveDirection * moveSpeed * Time.deltaTime);
 
-        // 이동 애니메이션 실행
-        animator.SetBool("Run", moveDirection != 0);
+        // 이동 애니메이션 실행 (Ground와 충돌 중일 때만)
+        if (isGrounded && moveDirection != 0)
+        {
+            animator.SetBool("Run", true);
+        }
+        else
+        {
+            animator.SetBool("Run", false);
+        }
 
         if ((moveDirection > 0 && !facingRight) || (moveDirection < 0 && facingRight))
         {
@@ -69,8 +76,6 @@ public class PlayerManager : MonoBehaviour
         {
             rb.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);
             isGrounded = false;
-
-            // 점프 애니메이션 실행
             animator.SetTrigger("Jump");
         }
     }
@@ -80,7 +85,7 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetKey(attackKey) && !attacking)
         {
             attacking = true;
-            animator.speed = attackSpeed; // 공격 중 애니메이션 속도 조절
+            animator.speed = attackSpeed;
             animator.SetTrigger("Attack1");
         }
     }
@@ -98,10 +103,19 @@ public class PlayerManager : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+            animator.ResetTrigger("Jump"); // 점프 애니메이션 취소
         }
     }
 
-    // 애니메이션 이벤트 - 공격 시작 시 콜라이더 생성
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false;
+            animator.SetBool("Run", false); // 지상에서 벗어나면 Run 비활성화
+        }
+    }
+
     public void CreateAttackCollider()
     {
         if (attackColliderPrefab != null && currentAttackCollider == null)
@@ -112,7 +126,6 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    // 애니메이션 이벤트 - 공격 종료 시 콜라이더 삭제 및 상태 초기화
     public void DestroyAttackCollider()
     {
         if (currentAttackCollider != null)
@@ -121,10 +134,9 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    // 애니메이션 이벤트 - 공격 종료 시 공격 가능 상태로 변경
     public void ResetAttack()
     {
         attacking = false;
-        animator.speed = 1.0f; // 기본 속도로 복구
+        animator.speed = 1.0f;
     }
 }
