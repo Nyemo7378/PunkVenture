@@ -4,19 +4,14 @@ using UnityEngine;
 
 public class MonsterMove : MonoBehaviour
 {
-    [SerializeField]
-    Transform m_target;
-    [SerializeField]
-    Rigidbody2D m_rigid;
+    [SerializeField] Transform m_target;
+    [SerializeField] Rigidbody2D m_rigid;
+    [SerializeField] float m_speed = 30.0f;
+    [SerializeField] bool m_detected = false;
     float m_coolTime = 3.0f;
-    float m_reset = 3.0f;
-    [SerializeField]
-    float m_speed = 30.0f;
+    [SerializeField] float m_coolTimeReset = 3.0f;
     int m_dir = 1;
 
-    bool m_detected = false;
-
-    
     // Start is called before the first frame update
     void Start()
     {
@@ -70,18 +65,13 @@ public class MonsterMove : MonoBehaviour
         {
             m_dir = 1;
         }
-
-        if(Mathf.Abs(targetDir) > 10.0f)
-        {
-
-        }
     }
     void FollowNothing()
     {
         m_coolTime -= Time.deltaTime;
         if (m_coolTime < 0.0f)
         {
-            m_coolTime = m_reset;
+            m_coolTime = m_coolTimeReset;
             m_dir = Random.Range(-1, 1);
         }
     }
