@@ -7,6 +7,5 @@ using UnityEngine.Rendering;
 // 필요한 함수있으시면 주석으로 달아주세요
 public interface IMonster
 { 
-    void ApplyDamage(float damage);
-    
+    void ApplyDamage(float damage, ref float playerExp);
 }

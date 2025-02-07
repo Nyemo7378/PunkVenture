@@ -110,7 +110,7 @@ public class PlayerManager : MonoBehaviour, IPlayer
             IMonster monster = enemy.GetComponent<IMonster>(); // `IMonster` 인터페이스로 참조
             if (monster != null)
             {
-                monster.ApplyDamage(attackDamage);
+                monster.ApplyDamage(attackDamage, ref EXP);
             }
         }
     }
