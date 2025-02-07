@@ -838,7 +838,7 @@ GameObject:
   - component: {fileID: 8942925491148970463}
   - component: {fileID: 9117128349112397308}
   - component: {fileID: 9117128349112397309}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HeroKnight
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1050,13 +1050,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   defense: 0
+  experience: 0
   moveSpeed: 10
   jumpHeight: 5
   attackRange: 1.5
+  attackRangeOffset: {x: 1, y: 0}
   attackDamage: 20
-  attackSpeed: 1
+  animSpeed: 1
   attacking: 0
-  attackColliderPrefab: {fileID: 8494760280922966609, guid: ba4c2a6a48543324ab9962e412531057, type: 3}
+  enemyLayers:
+    serializedVersion: 2
+    m_Bits: 0
   moveLeftKey: 97
   moveRightKey: 100
   jumpKey: 32
