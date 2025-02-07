@@ -11,6 +11,7 @@ public class MonsterSpawner : MonoBehaviour
     [SerializeField] uint m_preSpawnedMonsterCount = 8;
     [SerializeField] bool m_isSpawning = false;
     [SerializeField] List<Transform> m_spawnPositionList;
+    uint lastRenderOrder;
     private List<GameObject> m_monsterPool;
 
     // Start is called before the first frame update
