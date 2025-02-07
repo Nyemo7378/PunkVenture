@@ -47,6 +47,8 @@ public class MonsterSpawner : MonoBehaviour
             GameObject monster = GetFreeMonster();
             monster.SetActive(true);
             monster.transform.position = m_spawnPositionList[i].position;
+
+            SetMonsterSortingOrder(monster);
         }
     }
 
@@ -62,5 +64,15 @@ public class MonsterSpawner : MonoBehaviour
 
         Debug.LogAssertion("풀에 스폰가능한 몬스터가 없습니다. preSpawnedMonsterCount를 늘려주세요");
         return null;
+    }
+
+    private void SetMonsterSortingOrder(GameObject monster)
+    {
+        SpriteRenderer spriteRenderer = monster.GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.sortingOrder = (int)lastRenderOrder;
+            lastRenderOrder++;  
+        }
     }
 }
