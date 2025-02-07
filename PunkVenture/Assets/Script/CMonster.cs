@@ -10,8 +10,10 @@ public class CMonster : MonoBehaviour, IMonster
     [SerializeField] float m_maxHp = 100.0f;
     [SerializeField] MonsterSpawner m_parentSpawner;
     [SerializeField] MonsterUI m_UI;
+ 
     void Start()
     {
+    
     }
     void Update()
     {
@@ -22,12 +24,12 @@ public class CMonster : MonoBehaviour, IMonster
         m_curHp = 100.0f;
     }
 
-    public void ApplyDamage(float damage)
+    public void ApplyDamage(float damage, ref float playerExp)
     {
         m_curHp -= damage;
         if(m_curHp <= 0.0f)
         {
-            m_curHp = 0.0f;
+            playerExp += 5.0f;
             transform.gameObject.SetActive(false);
         }
         float hpRatio = m_curHp / m_maxHp;

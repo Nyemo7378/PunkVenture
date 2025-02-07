@@ -108,7 +108,7 @@ public class PlayerManager : MonoBehaviour, IPlayer
             IMonster monster = enemy.GetComponent<IMonster>();
             if (monster != null)
             {
-                monster.ApplyDamage(attackDamage);
+                monster.ApplyDamage(attackDamage, ref EXP);
             }
         }
     }
