@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IPlayer
 {
-    void AddExp(float exp);
+    void AddExp(float EXP);
 }
