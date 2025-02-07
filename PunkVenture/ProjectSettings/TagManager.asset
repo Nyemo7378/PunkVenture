@@ -44,3 +44,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Monster
+    uniqueID: 2475555015
+    locked: 0
+  - name: MonsterUI
+    uniqueID: 1343583349
+    locked: 0

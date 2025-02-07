@@ -17,6 +17,11 @@ public class CMonster : MonoBehaviour, IMonster
     {
     }
 
+    public void ResetHp()
+    {
+        m_curHp = 100.0f;
+    }
+
     public void ApplyDamage(float damage)
     {
         m_curHp -= damage;

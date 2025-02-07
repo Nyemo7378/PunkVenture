@@ -11,7 +11,7 @@ public class MonsterSpawner : MonoBehaviour
     [SerializeField] uint m_preSpawnedMonsterCount = 8;
     [SerializeField] bool m_isSpawning = false;
     [SerializeField] List<Transform> m_spawnPositionList;
-    uint lastRenderOrder;
+    int m_lastRenderOrder;
     private List<GameObject> m_monsterPool;
 
     // Start is called before the first frame update
@@ -47,8 +47,13 @@ public class MonsterSpawner : MonoBehaviour
             GameObject monster = GetFreeMonster();
             monster.SetActive(true);
             monster.transform.position = m_spawnPositionList[i].position;
+            CMonster cmon = monster.GetComponent<CMonster>();
+            cmon.ResetHp();
 
-            SetMonsterSortingOrder(monster);
+            MonsterUI ui = monster.GetComponentInChildren<MonsterUI>();
+            ui.SetCoverRenderOrder(m_lastRenderOrder + 1);
+            ui.SetGaugeRenderOrder(m_lastRenderOrder);
+            m_lastRenderOrder += 2;
         }
     }
 
@@ -64,15 +69,5 @@ public class MonsterSpawner : MonoBehaviour
 
         Debug.LogAssertion("풀에 스폰가능한 몬스터가 없습니다. preSpawnedMonsterCount를 늘려주세요");
         return null;
-    }
-
-    private void SetMonsterSortingOrder(GameObject monster)
-    {
-        SpriteRenderer spriteRenderer = monster.GetComponent<SpriteRenderer>();
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.sortingOrder = (int)lastRenderOrder;
-            lastRenderOrder++;  
-        }
     }
 }
