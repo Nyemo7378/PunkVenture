@@ -24,7 +24,6 @@ public class MonsterSpawner : MonoBehaviour
             monster.SetActive(false);
             m_monsterPool.Add(monster);
         }
-
     }
 
     // Update is called once per frame

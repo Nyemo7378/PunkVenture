@@ -24,12 +24,12 @@ public class CMonster : MonoBehaviour, IMonster
         m_curHp = 100.0f;
     }
 
-    public void ApplyDamage(float damage, ref float playerExp)
+    public void ApplyDamage(float damage, IPlayer player)
     {
         m_curHp -= damage;
         if(m_curHp <= 0.0f)
         {
-            playerExp += 5.0f;
+            player.AddExp(5.0f);
             transform.gameObject.SetActive(false);
         }
         float hpRatio = m_curHp / m_maxHp;
