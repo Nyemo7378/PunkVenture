@@ -12,3 +12,8 @@ public interface IMonster
 { 
     void ApplyDamage(float damage, IPlayer player);
 }
+
+public interface IDamageable
+{
+    float GetDamage();
+}

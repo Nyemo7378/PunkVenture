@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CMonster : MonoBehaviour, IMonster
@@ -10,15 +11,24 @@ public class CMonster : MonoBehaviour, IMonster
     [SerializeField] float m_maxHp = 100.0f;
     [SerializeField] MonsterSpawner m_parentSpawner;
     [SerializeField] MonsterUI m_UI;
- 
+    IPlayer m_player;
+
     void Start()
     {
-    
+        m_player = GameObject.Find("Player").GetComponent<IPlayer>();
     }
     void Update()
     {
     }
-
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("Damageable"))
+        {
+            IDamageable damageObject = collision.gameObject.GetComponent<IDamageable>();
+            ApplyDamage(damageObject.GetDamage(), m_player);
+        }
+        
+    }
     public void ResetHp()
     {
         m_curHp = 100.0f;

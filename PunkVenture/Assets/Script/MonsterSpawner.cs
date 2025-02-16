@@ -8,7 +8,7 @@ public class MonsterSpawner : MonoBehaviour
     [SerializeField] GameObject m_monster;
     [SerializeField] float m_coolTime;
     [SerializeField] float m_coolTimeReset = 5.0f;
-    [SerializeField] uint m_preSpawnedMonsterCount = 8;
+    [SerializeField] uint m_maxCount = 8;
     [SerializeField] bool m_isSpawning = false;
     [SerializeField] List<Transform> m_spawnPositionList;
     int m_lastRenderOrder;
@@ -18,7 +18,7 @@ public class MonsterSpawner : MonoBehaviour
     void Start()
     {
         m_monsterPool = new List<GameObject>();
-        for (int i = 0; i < m_preSpawnedMonsterCount; i++)
+        for (int i = 0; i < m_maxCount; i++)
         {
             GameObject monster = Instantiate(m_monster, new Vector3(0, 0, 0), Quaternion.identity);
             monster.SetActive(false);
@@ -44,6 +44,11 @@ public class MonsterSpawner : MonoBehaviour
         for (int i = 0; i < m_spawnPositionList.Count; i++)
         {
             GameObject monster = GetFreeMonster();
+            if(monster == null)
+            {
+                continue;
+            }
+
             monster.SetActive(true);
             monster.transform.position = m_spawnPositionList[i].position;
             CMonster cmon = monster.GetComponent<CMonster>();
@@ -65,8 +70,6 @@ public class MonsterSpawner : MonoBehaviour
                 return m_monsterPool[i];
             }
         }
-
-        Debug.LogAssertion("풀에 스폰가능한 몬스터가 없습니다. preSpawnedMonsterCount를 늘려주세요");
         return null;
     }
 }
