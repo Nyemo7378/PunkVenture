@@ -4,18 +4,12 @@ using UnityEngine;
 
 public class Sword : MonoBehaviour
 {
-    public LayerMask m_enemyLayer;
-    public float m_attackRange = 3;
-    public float m_chainAttackRange = 3;
-    public int m_maxChainCount = 3;
+    [SerializeField] GameObject m_SparkLinePrefab;
+    [SerializeField] LayerMask m_enemyLayer;
+    [SerializeField] float m_attackRange = 3;
+    [SerializeField] float m_chainAttackRange = 3;
+    [SerializeField] int m_maxChainCount = 3;
 
-    public Color outLineStart;
-    public Color outLineEnd;
-
-    public Color innerLineStart;
-    public Color innerLineEnd;
-    public float outWidth;
-    public float innerWidth;
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -47,49 +41,9 @@ public class Sword : MonoBehaviour
 
     void DrawChainEffect(Vector2 startPos, Vector2 endPos)
     {
-        GameObject chainEffect = new GameObject("ChainEffect");
-
-        LineRenderer outerLine = chainEffect.AddComponent<LineRenderer>();
-        outerLine.positionCount = 5;
-        outerLine.startWidth = outWidth; 
-        outerLine.endWidth = outWidth;
-        outerLine.material = new Material(Shader.Find("Sprites/Default"));
-        outerLine.startColor = outLineStart;
-        outerLine.endColor = outLineEnd;
-        outerLine.sortingLayerName = "Effect";
-        outerLine.sortingOrder = 100;
-
-        GameObject innerEffect = new GameObject("InnerLine");
-        innerEffect.transform.SetParent(chainEffect.transform); 
-        LineRenderer innerLine = innerEffect.AddComponent<LineRenderer>();
-        innerLine.positionCount = 5;
-        innerLine.startWidth = innerWidth;
-        innerLine.endWidth = innerWidth;
-        innerLine.material = new Material(Shader.Find("Sprites/Default"));
-        innerLine.startColor = Color.white;
-        innerLine.endColor = Color.white;
-        innerLine.sortingLayerName = "Effect";
-        innerLine.sortingOrder = 101;
-
-        // 지글지글
-        Vector2 direction = (endPos - startPos).normalized;
-        float distance = Vector2.Distance(startPos, endPos);
-        Vector2 perpendicular = new Vector2(-direction.y, direction.x);
-
-        outerLine.SetPosition(0, startPos);
-        innerLine.SetPosition(0, startPos);
-        for (int i = 1; i < outerLine.positionCount - 1; i++)
-        {
-            float t = i / (float)(outerLine.positionCount - 1);
-            Vector2 basePos = Vector2.Lerp(startPos, endPos, t);
-            Vector2 offset = perpendicular * Random.Range(-0.2f, 0.2f);
-            Vector2 pos = basePos + offset;
-            outerLine.SetPosition(i, pos);
-            innerLine.SetPosition(i, pos);
-        }
-        outerLine.SetPosition(outerLine.positionCount - 1, endPos);
-        innerLine.SetPosition(innerLine.positionCount - 1, endPos);
-
+        GameObject chainEffect = Instantiate(m_SparkLinePrefab, startPos, Quaternion.identity);
+        SparkLine outerLine = chainEffect.GetComponent<SparkLine>();
+        outerLine.SetPositions(startPos, endPos);
         Destroy(chainEffect, 0.2f);
     }
 }

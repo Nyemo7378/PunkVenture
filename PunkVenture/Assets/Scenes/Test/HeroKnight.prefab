@@ -48,6 +48,14 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   m_attackRange: 3
+  m_chainAttackRange: 3
+  m_maxChainCount: 3
+  outLineStart: {r: 0, g: 1, b: 0.9826031, a: 1}
+  outLineEnd: {r: 0, g: 0.17668843, b: 1, a: 1}
+  innerLineStart: {r: 1, g: 1, b: 1, a: 0}
+  innerLineEnd: {r: 1, g: 1, b: 1, a: 0}
+  outWidth: 0.07
+  innerWidth: 0.03
 --- !u!1 &1990153658853691192
 GameObject:
   m_ObjectHideFlags: 0
@@ -562,7 +570,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 5565459207527102130, guid: ff429fd4cdc1cdd4da643b20bfef1b87, type: 3}
-  firePoint: {fileID: 924695244896195088}
+  firePoint: {fileID: 0}
   bulletSpeed: 10
   poolSize: 16
 --- !u!1 &4830299403923533081
