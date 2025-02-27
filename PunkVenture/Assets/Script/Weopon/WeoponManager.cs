@@ -16,13 +16,10 @@ public class WeoponManager : MonoBehaviour
             GameObject weopon = child.gameObject;
             m_weoponList.Add(weopon.name, weopon);
         }
-        SetWeopon("Staff");
+        //SetWeopon("TestStaff");
+        SetWeopon("Sword");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
     public void SetWeopon(string name)
     {
         if(false == m_weoponList.ContainsKey(name))

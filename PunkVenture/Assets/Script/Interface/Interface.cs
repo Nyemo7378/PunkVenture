@@ -10,7 +10,7 @@ public interface IPlayer
 
 public interface IMonster
 { 
-    void ApplyDamage(float damage, IPlayer player);
+    void ApplyDamage(float damage);
 }
 
 public interface IDamageable

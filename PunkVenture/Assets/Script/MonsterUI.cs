@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class MonsterUI : MonoBehaviour
 {
-    [SerializeField] SpriteRenderer m_gaugeRenderer;
-    [SerializeField] SpriteRenderer m_coverRenderer;
+    [SerializeField] SpriteRenderer m_cover;
+    [SerializeField] SpriteRenderer m_gauge;
+    [SerializeField] SpriteRenderer m_back;
     private MaterialPropertyBlock m_block;
     private void Awake()
     {
@@ -18,15 +19,12 @@ public class MonsterUI : MonoBehaviour
     public void UpdateUI(float cutOffValue)
     {
         m_block.SetFloat("_CutOff", cutOffValue);
-        m_gaugeRenderer.SetPropertyBlock(m_block);
+        m_gauge.SetPropertyBlock(m_block);
     }
-    public void SetGaugeRenderOrder(int order)
+    public void SetUIRenderOrder(int order)
     {
-        m_gaugeRenderer.sortingOrder = order;
-    }
-
-    public void SetCoverRenderOrder(int order)
-    {
-        m_coverRenderer.sortingOrder = order;
+        m_cover.sortingOrder = order;
+        m_gauge.sortingOrder = order;
+        m_back.sortingOrder = order - 1;
     }
 }

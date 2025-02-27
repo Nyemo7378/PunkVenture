@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class MonsterSpawner : MonoBehaviour
 {
-    [SerializeField] GameObject m_monster;
+    [SerializeField] GameObject m_monsterPrefab;
     [SerializeField] float m_coolTime;
     [SerializeField] float m_coolTimeReset = 5.0f;
     [SerializeField] uint m_maxCount = 8;
     [SerializeField] bool m_isSpawning = false;
     [SerializeField] List<Transform> m_spawnPositionList;
-    int m_lastRenderOrder;
+    private int m_lastRenderOrder;
     private List<GameObject> m_monsterPool;
 
     // Start is called before the first frame update
@@ -20,9 +20,9 @@ public class MonsterSpawner : MonoBehaviour
         m_monsterPool = new List<GameObject>();
         for (int i = 0; i < m_maxCount; i++)
         {
-            GameObject monster = Instantiate(m_monster, new Vector3(0, 0, 0), Quaternion.identity);
-            monster.SetActive(false);
-            m_monsterPool.Add(monster);
+            GameObject monsterObject = Instantiate(m_monsterPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            monsterObject.SetActive(false);
+            m_monsterPool.Add(monsterObject);
         }
     }
 
@@ -43,21 +43,25 @@ public class MonsterSpawner : MonoBehaviour
 
         for (int i = 0; i < m_spawnPositionList.Count; i++)
         {
-            GameObject monster = GetFreeMonster();
-            if(monster == null)
+            GameObject monsterObject = GetFreeMonster();
+            if(monsterObject == null)
             {
                 continue;
             }
 
-            monster.SetActive(true);
-            monster.transform.position = m_spawnPositionList[i].position;
-            CMonster cmon = monster.GetComponent<CMonster>();
-            cmon.ResetHp();
+            monsterObject.SetActive(true);
+            monsterObject.transform.position = m_spawnPositionList[i].position;
 
-            MonsterUI ui = monster.GetComponentInChildren<MonsterUI>();
-            ui.SetCoverRenderOrder(m_lastRenderOrder + 1);
-            ui.SetGaugeRenderOrder(m_lastRenderOrder);
-            m_lastRenderOrder += 2;
+            Monster monsterScript = monsterObject.GetComponent<Monster>();
+            monsterScript.ResetHp();
+
+            MonsterMove moveScript = monsterObject.GetComponentInChildren<MonsterMove>();
+            moveScript.m_speed += Random.Range(-0.5f, 0.3f);
+
+            MonsterUI uiScript = monsterObject.GetComponentInChildren<MonsterUI>();
+            uiScript.SetUIRenderOrder(m_lastRenderOrder);
+
+            m_lastRenderOrder++;
         }
     }
 

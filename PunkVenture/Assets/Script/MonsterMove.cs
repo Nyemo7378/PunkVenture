@@ -6,7 +6,7 @@ public class MonsterMove : MonoBehaviour
 {
     [SerializeField] Transform m_target;
     [SerializeField] Rigidbody2D m_rigid;
-    [SerializeField] float m_speed = 30.0f;
+    [SerializeField] public float m_speed = 30.0f;
     [SerializeField] bool m_detected = false;
     float m_coolTime = 3.0f;
     [SerializeField] float m_coolTimeReset = 3.0f;
