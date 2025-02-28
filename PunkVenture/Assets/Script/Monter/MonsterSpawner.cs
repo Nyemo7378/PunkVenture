@@ -11,6 +11,7 @@ public class MonsterSpawner : MonoBehaviour
     [SerializeField] uint m_maxCount = 8;
     [SerializeField] bool m_isSpawning = false;
     [SerializeField] List<Transform> m_spawnPositionList;
+
     private int m_lastRenderOrder;
     private List<GameObject> m_monsterPool;
 

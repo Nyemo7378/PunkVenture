@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public interface IPlayer
+public interface IPlayer : IDamageable
 {
     void AddExp(float exp);
 }
 
-public interface IMonster
+public interface IMonster : IDamageable
 { 
-    void ApplyDamage(float damage);
 }
 
 public interface IDamageable
 {
-    float GetDamage();
+    void TakeHit(float damage);
 }

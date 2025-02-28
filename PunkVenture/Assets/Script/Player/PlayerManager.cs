@@ -48,6 +48,14 @@ public class PlayerManager : MonoBehaviour, IPlayer
         HandleJump();
         HandleAttack();
     }
+    public void TakeHit(float damage)
+    {
+        health -= damage;
+        if (health <= 0.0f)
+        {
+            Destroy(transform.gameObject);
+        }
+    }
 
     private void HandleMovement()
     {
@@ -107,10 +115,10 @@ public class PlayerManager : MonoBehaviour, IPlayer
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPosition, attackRange, enemyLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
-            IMonster monster = enemy.GetComponent<IMonster>(); // `IMonster` 인터페이스로 참조
+            IDamageable monster = enemy.GetComponent<IDamageable>(); // `IMonster` 인터페이스로 참조
             if (monster != null)
             {
-                monster.ApplyDamage(attackDamage);
+                monster.TakeHit(attackDamage);
             }
         }
     }

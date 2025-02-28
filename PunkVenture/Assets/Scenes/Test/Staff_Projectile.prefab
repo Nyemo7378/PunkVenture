@@ -276,6 +276,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11c72521c0ad966409486256e19d40d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_damage: 5
   m_lifeTimeReset: 3
   m_rigidbody2D: {fileID: 5571357489087702698}
-  IsDestroyOnCollision: 1
+  m_destroyOnGround: 1
+  m_firepos: {fileID: 0}

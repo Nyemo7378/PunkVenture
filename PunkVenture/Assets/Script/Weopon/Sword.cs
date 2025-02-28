@@ -14,12 +14,12 @@ public class Sword : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Vector2 attackPoint = transform.position; // 공격 중심점 (검의 위치 기준)
-            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint, m_attackRange, m_enemyLayer);
-            if(hitEnemies.Length != 0)
+            Vector2 attackPoint = transform.position; 
+            Collider2D[] monsters = Physics2D.OverlapCircleAll(attackPoint, m_attackRange, m_enemyLayer);
+            if(monsters.Length != 0)
             {
-                hitEnemies[0].GetComponent<IMonster>().ApplyDamage(10);
-                ChainAttack(hitEnemies[0].transform);
+                monsters[0].GetComponent<IMonster>().TakeHit(10);
+                ChainAttack(monsters[0].transform);
             }
         }
     }
@@ -32,7 +32,7 @@ public class Sword : MonoBehaviour
         {
             if (enemy.transform != originEnemy && chainCount < m_maxChainCount)
             {
-                enemy.GetComponent<IMonster>().ApplyDamage(5);
+                enemy.GetComponent<IMonster>().TakeHit(5);
                 chainCount++;
                 DrawChainEffect(originEnemy.position, enemy.transform.position); 
             }
@@ -41,10 +41,10 @@ public class Sword : MonoBehaviour
 
     void DrawChainEffect(Vector2 startPos, Vector2 endPos)
     {
-        GameObject chainEffect = Instantiate(m_SparkLinePrefab, startPos, Quaternion.identity);
-        SparkLine outerLine = chainEffect.GetComponent<SparkLine>();
-        outerLine.SetPositions(startPos, endPos);
-        Destroy(chainEffect, 0.2f);
+        GameObject sparkObject = Instantiate(m_SparkLinePrefab, startPos, Quaternion.identity);
+        SparkLine sparkScript = sparkObject.GetComponent<SparkLine>();
+        sparkScript.SetPositions(startPos, endPos);
+        Destroy(sparkObject, 0.2f);
     }
 }
 

@@ -22,7 +22,6 @@ public class SparkLine : MonoBehaviour
 
     public void SetPositions(Vector2 startPos, Vector2 endPos)
     {
-        lineRenderer.useWorldSpace = true;
         for (int i = 0; i < pointCount; i++)
         {
             float t = i / (float)(pointCount - 1);

@@ -20,21 +20,13 @@ public class Monster : MonoBehaviour, IMonster
     void Update()
     {
     }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.CompareTag("Damageable"))
-        {
-            IDamageable damageObject = collision.gameObject.GetComponent<IDamageable>();
-            ApplyDamage(damageObject.GetDamage());
-        }
-    }
 
     public void ResetHp()
     {
         m_curHp = 100.0f;
     }
 
-    public void ApplyDamage(float damage)
+    public void TakeHit(float damage)
     {
         m_curHp -= damage;
         if(m_curHp <= 0.0f)
@@ -47,4 +39,14 @@ public class Monster : MonoBehaviour, IMonster
         Math.Clamp(result, 0.0f, 1.0f);
         m_UI.UpdateUI(result);
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("Player"))
+        {
+            var a = collision.gameObject.GetComponent<IDamageable>();
+            a.TakeHit(10);
+        }
+    }
+
 }

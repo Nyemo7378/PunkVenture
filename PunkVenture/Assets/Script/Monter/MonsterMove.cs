@@ -8,8 +8,9 @@ public class MonsterMove : MonoBehaviour
     [SerializeField] Rigidbody2D m_rigid;
     [SerializeField] public float m_speed = 30.0f;
     [SerializeField] bool m_detected = false;
-    float m_coolTime = 3.0f;
     [SerializeField] float m_coolTimeReset = 3.0f;
+
+    float m_coolTime = 3.0f;
     int m_dir = 1;
 
     // Start is called before the first frame update
