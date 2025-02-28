@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class MonsterSpawner : MonoBehaviour
 {
     [SerializeField] GameObject m_monsterPrefab;
+    [SerializeField] Transform m_monsterGroup;
     [SerializeField] float m_coolTime;
     [SerializeField] float m_coolTimeReset = 5.0f;
     [SerializeField] uint m_maxCount = 8;
@@ -22,6 +23,7 @@ public class MonsterSpawner : MonoBehaviour
         for (int i = 0; i < m_maxCount; i++)
         {
             GameObject monsterObject = Instantiate(m_monsterPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            monsterObject.transform.SetParent(m_monsterGroup);
             monsterObject.SetActive(false);
             m_monsterPool.Add(monsterObject);
         }

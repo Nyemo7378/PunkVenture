@@ -3,19 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Monster : MonoBehaviour, IMonster
 {
     [SerializeField] float m_curHp = 100.0f;
     [SerializeField] float m_maxHp = 100.0f;
     [SerializeField] MonsterSpawner m_parentSpawner;
-    [SerializeField] MonsterUI m_UI;
+    [SerializeField] MonsterUI m_ui;
+    [SerializeField] GameObject m_mask;
+
+
     IPlayer m_player;
 
     void Start()
     {
         m_player = GameObject.Find("Player").GetComponent<IPlayer>();
+        if(m_player == null)
+        {
+            Debug.LogAssertion("플레이어 없음");
+        }
     }
     void Update()
     {
@@ -28,6 +37,7 @@ public class Monster : MonoBehaviour, IMonster
 
     public void TakeHit(float damage)
     {
+        m_mask.SetActive(true);
         m_curHp -= damage;
         if(m_curHp <= 0.0f)
         {
@@ -37,15 +47,14 @@ public class Monster : MonoBehaviour, IMonster
         float hpRatio = m_curHp / m_maxHp;
         float result = 1.0f - hpRatio;
         Math.Clamp(result, 0.0f, 1.0f);
-        m_UI.UpdateUI(result);
+        m_ui.UpdateUI(result);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.CompareTag("Player"))
         {
-            var a = collision.gameObject.GetComponent<IDamageable>();
-            a.TakeHit(10);
+            m_player.TakeHit(10);       
         }
     }
 
