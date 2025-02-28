@@ -27,11 +27,13 @@ public class PlayerManager : MonoBehaviour, IPlayer
 
     private Rigidbody2D rb;
     private Animator animator;
+    private SpriteRenderer spriteRenderer;
     private bool isGrounded;
     private bool facingRight = true;
 
     private void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         animator.SetFloat("AttackSpeed", animSpeed); // 애니메이션 속도 적용
@@ -126,9 +128,10 @@ public class PlayerManager : MonoBehaviour, IPlayer
     private void Flip()
     {
         facingRight = !facingRight;
-        Vector3 scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
+        spriteRenderer.flipX = !spriteRenderer.flipX;
+        //Vector3 scale = transform.localScale;
+        //scale.x *= -1;
+        //transform.localScale = scale;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
