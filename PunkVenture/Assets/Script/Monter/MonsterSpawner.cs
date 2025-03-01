@@ -64,7 +64,7 @@ public class MonsterSpawner : MonoBehaviour
             MonsterUI uiScript = monsterObject.GetComponentInChildren<MonsterUI>();
             uiScript.SetUIRenderOrder(m_lastRenderOrder);
 
-            m_lastRenderOrder++;
+            m_lastRenderOrder += 2;
         }
     }
 

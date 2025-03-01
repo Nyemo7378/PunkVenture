@@ -38,6 +38,12 @@ public class PlayerManager : MonoBehaviour, IPlayer
         animator = GetComponent<Animator>();
         animator.SetFloat("AttackSpeed", animSpeed); // 애니메이션 속도 적용
     }
+    public int GetDirX()
+    {
+        if (facingRight)
+            return 1;
+        return -1;
+    }
 
     public void AddExp(float expAmount)
     {
@@ -129,9 +135,6 @@ public class PlayerManager : MonoBehaviour, IPlayer
     {
         facingRight = !facingRight;
         spriteRenderer.flipX = !spriteRenderer.flipX;
-        //Vector3 scale = transform.localScale;
-        //scale.x *= -1;
-        //transform.localScale = scale;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

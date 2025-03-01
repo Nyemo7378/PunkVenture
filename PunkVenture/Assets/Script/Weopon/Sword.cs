@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Sword : MonoBehaviour
 {
-    [SerializeField] GameObject m_SparkLinePrefab;
+    [SerializeField] GameObject m_sparkLinePrefab;
     [SerializeField] LayerMask m_enemyLayer;
     [SerializeField] float m_attackRange = 3;
     [SerializeField] float m_chainAttackRange = 3;
@@ -41,7 +41,7 @@ public class Sword : MonoBehaviour
 
     void DrawChainEffect(Vector2 startPos, Vector2 endPos)
     {
-        GameObject sparkObject = Instantiate(m_SparkLinePrefab, startPos, Quaternion.identity);
+        GameObject sparkObject = Instantiate(m_sparkLinePrefab, startPos, Quaternion.identity);
         SparkLine sparkScript = sparkObject.GetComponent<SparkLine>();
         sparkScript.SetPositions(startPos, endPos);
         Destroy(sparkObject, 0.2f);
