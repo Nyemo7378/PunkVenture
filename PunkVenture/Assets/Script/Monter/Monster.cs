@@ -13,7 +13,7 @@ public class Monster : MonoBehaviour, IMonster
     [SerializeField] float m_maxHp = 100.0f;
     [SerializeField] MonsterSpawner m_parentSpawner;
     [SerializeField] MonsterUI m_ui;
-    [SerializeField] GameObject m_mask;
+    [SerializeField] GameObject m_blinkObject;
 
 
     IPlayer m_player;
@@ -37,7 +37,7 @@ public class Monster : MonoBehaviour, IMonster
 
     public void TakeHit(float damage)
     {
-        m_mask.SetActive(true);
+        m_blinkObject.SetActive(true);
         m_curHp -= damage;
         if(m_curHp <= 0.0f)
         {

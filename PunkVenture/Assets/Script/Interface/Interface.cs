@@ -6,7 +6,6 @@ using UnityEngine.Rendering;
 public interface IPlayer : IDamageable
 {
     void AddExp(float exp);
-    int GetDirX();
 }
 
 public interface IMonster : IDamageable

@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 550611412928781053}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 0.933, z: 0}
+  m_LocalPosition: {x: 0, y: 0.933, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -75,7 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed880fddaeb264f4f914ab1e9aa5d1c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_sparkLinePrefab: {fileID: 0}
+  m_sparkLinePrefab: {fileID: 2703211432612037856, guid: 721ea06724cc1a740a6492b30ded02de, type: 3}
   m_enemyLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -446,7 +446,7 @@ MonoBehaviour:
   defense: 0
   EXP: 0
   moveSpeed: 10
-  jumpHeight: 5
+  jumpHeight: 7
   attackRange: 1.5
   attackRangeOffset: {x: -0.03, y: 0.96}
   attackDamage: 20
@@ -567,7 +567,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &924695244896195088
 Transform:
   m_ObjectHideFlags: 0

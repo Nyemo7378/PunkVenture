@@ -38,10 +38,6 @@ public class Gun : MonoBehaviour
 
     void Update()
     {
-        Vector3 flipScale = transform.localScale;
-        flipScale.x = m_player.GetDirX();
-        transform.localScale = flipScale;
-
         if (!Input.GetMouseButtonDown(0))
             return;
 

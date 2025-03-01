@@ -38,13 +38,6 @@ public class PlayerManager : MonoBehaviour, IPlayer
         animator = GetComponent<Animator>();
         animator.SetFloat("AttackSpeed", animSpeed); // 애니메이션 속도 적용
     }
-    public int GetDirX()
-    {
-        if (facingRight)
-            return 1;
-        return -1;
-    }
-
     public void AddExp(float expAmount)
     {
         EXP += expAmount; // 경험치 추가
