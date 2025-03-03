@@ -15,5 +15,6 @@ MonoBehaviour:
   name: apple
   detail: "\uBE44\uC308"
   icon: {fileID: 21300000, guid: e914aedcd3c9e7f4e91feb3ebf673df7, type: 3}
+  type: 1
   count: 1
-  isStackable: 1
+  isStackable: 0

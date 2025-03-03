@@ -18,7 +18,7 @@ public class Inventory : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Z))
         {
-            m_slot.Add(m_item);
+            m_slot.Insert(m_item);
         }
         if (Input.GetKeyDown(KeyCode.X))
         {

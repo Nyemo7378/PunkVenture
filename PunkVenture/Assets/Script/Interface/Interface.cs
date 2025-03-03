@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+public interface IDamageable
+{
+    void TakeHit(float damage);
+}
 
 public interface IPlayer : IDamageable
 {
@@ -12,7 +16,7 @@ public interface IMonster : IDamageable
 { 
 }
 
-public interface IDamageable
+public interface IWeaponManager
 {
-    void TakeHit(float damage);
+    void EquipWeapon(string name);
 }

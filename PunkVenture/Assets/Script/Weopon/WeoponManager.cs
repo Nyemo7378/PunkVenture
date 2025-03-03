@@ -4,7 +4,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class WeoponManager : MonoBehaviour
+public class WeoponManager : MonoBehaviour, IWeaponManager
 {
     Dictionary<string, GameObject> m_weoponList;
     GameObject m_curWeopon = null;
@@ -17,7 +17,7 @@ public class WeoponManager : MonoBehaviour
             GameObject weopon = child.gameObject;
             m_weoponList.Add(weopon.name, weopon);
         }
-        SetWeopon("Gun");
+        EquipWeapon("Gun");
     }
 
 #if DEBUG
@@ -50,11 +50,11 @@ public class WeoponManager : MonoBehaviour
             int nextIndex = (currentIndex + 1) % weaponNames.Length;
 
             // 다음 무기로 전환
-            SetWeopon(weaponNames[nextIndex]);
+            EquipWeapon(weaponNames[nextIndex]);
         }
     }
 #endif
-    public void SetWeopon(string name)
+    public void EquipWeapon(string name)
     {
         if (false == m_weoponList.ContainsKey(name))
             Debug.DebugBreak();
