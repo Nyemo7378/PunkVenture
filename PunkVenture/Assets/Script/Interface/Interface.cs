@@ -2,18 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+public interface IDamageable
+{
+    void TakeHit(float damage);
+}
 
-public interface IPlayer
+public interface IPlayer : IDamageable
 {
     void AddExp(float exp);
 }
 
-public interface IMonster
+public interface IMonster : IDamageable
 { 
-    void ApplyDamage(float damage, IPlayer player);
 }
 
-public interface IDamageable
+public interface IWeaponManager
 {
-    float GetDamage();
+    void EquipWeapon(string name);
 }
