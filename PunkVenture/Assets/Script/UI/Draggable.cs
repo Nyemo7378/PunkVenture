@@ -81,7 +81,6 @@ public class Draggable : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoin
         {
             Slot mySlot = gameObject.GetComponentInParent<Slot>();
             mySlot.Swap(targetSlot);
-            targetSlot.Swap(mySlot); 
         }
 
         // 원래 위치로 돌아가기 옵션

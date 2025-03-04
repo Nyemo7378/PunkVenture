@@ -7,33 +7,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using static UnityEditor.Progress;
 
-public enum ItemType
-{
-    Weapon,
-    Accessory,
-    Consumable,
-    Material
-}
-
-[CreateAssetMenu(fileName = "NewItem", menuName = "Inventory/Item")]
-public class Item : ScriptableObject
-{
-    public string name;
-    public string detail;
-    public Sprite icon;
-    public ItemType type;
-    public uint count = 1;
-
-    public bool IsEquipable()
-    {
-        if (type == ItemType.Consumable || type == ItemType.Material)
-        {
-            return false;
-        }
-        return true;
-    }
-}
-
 public class Slot : MonoBehaviour
 {
     [SerializeField] Image m_iconImage;
@@ -77,11 +50,18 @@ public class Slot : MonoBehaviour
         Item temp1 = null;
         Item temp2 = null;
 
-        temp1 = Instantiate(other.m_item);
-        temp2 = Instantiate(m_item);
+        if(other.m_item)
+        {
+            temp1 = Instantiate(other.m_item);
+        }
 
-        other.Clear();
+        if(m_item)
+        {
+            temp2 = Instantiate(m_item);
+        }
+
         Clear();
+        other.Clear();
 
         Insert(temp1);
         other.Insert(temp2);

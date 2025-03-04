@@ -5,15 +5,14 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     [SerializeField] Slot m_slot;
+    [SerializeField] Slot m_slot2;
     [SerializeField] Item m_item;
+    [SerializeField] Item m_item2;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
        
     }
-
-    // Update is called once per frame
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Z))
@@ -22,7 +21,7 @@ public class Inventory : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
-            m_slot.Clear();
+            m_slot2.Insert(m_item2);
         }
     }
 }
