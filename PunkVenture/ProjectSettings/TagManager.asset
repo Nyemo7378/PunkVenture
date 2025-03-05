@@ -45,6 +45,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BackGround
+    uniqueID: 1456366079
+    locked: 0
   - name: Monster
     uniqueID: 2475555015
     locked: 0
