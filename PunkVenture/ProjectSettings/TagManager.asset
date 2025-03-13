@@ -54,6 +54,9 @@ TagManager:
   - name: MonsterUI
     uniqueID: 1343583349
     locked: 0
+  - name: Player
+    uniqueID: 1311115501
+    locked: 0
   - name: Effect
     uniqueID: 2182117429
     locked: 0
