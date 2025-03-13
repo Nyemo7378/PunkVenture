@@ -154,6 +154,25 @@ public class PlayerManager : MonoBehaviour, IPlayer
         }
     }
 
+    public void PerformAttack()
+    {
+        // 공격 위치 계산 (방향에 따라 좌/우 조정)
+        Vector2 attackPosition = (Vector2)transform.position + new Vector2(
+            facingRight ? attackRangeOffset.x : -attackRangeOffset.x,
+            attackRangeOffset.y
+        );
+
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPosition, attackRange, enemyLayers);
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            IDamageable monster = enemy.GetComponent<IDamageable>(); // `IMonster` 인터페이스로 참조
+            if (monster != null)
+            {
+                monster.TakeHit(attackDamage);
+            }
+        }
+    }
+
     private void HandleAttack()
     {
         if (Input.GetKey(attackKey) && !attacking)
@@ -193,5 +212,16 @@ public class PlayerManager : MonoBehaviour, IPlayer
             animator.SetBool("Run", false);
             animator.SetBool("Jump", true);
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        // 공격 범위 및 위치 표시
+        Gizmos.color = Color.red;
+        Vector2 attackPosition = (Vector2)transform.position + new Vector2(
+            facingRight ? attackRangeOffset.x : -attackRangeOffset.x,
+            attackRangeOffset.y
+        );
+        Gizmos.DrawWireSphere(attackPosition, attackRange);
     }
 }
