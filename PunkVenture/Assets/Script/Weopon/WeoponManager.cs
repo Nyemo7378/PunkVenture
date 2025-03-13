@@ -59,6 +59,12 @@ public class WeoponManager : MonoBehaviour, IWeaponManager
         if (false == m_weoponList.ContainsKey(name))
             Debug.DebugBreak();
 
+        if(m_curWeopon == m_weoponList[name])
+        {
+            return;
+        }
+
+
         if (m_curWeopon != null)
         {
             m_curWeopon.SetActive(false);

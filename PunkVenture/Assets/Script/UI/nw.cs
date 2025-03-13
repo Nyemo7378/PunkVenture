@@ -9,7 +9,7 @@ public class nw : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        m_wm = GameObject.Find("Player").GetComponent<IWeaponManager>();
     }
 
     // Update is called once per frame
