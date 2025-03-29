@@ -45,11 +45,17 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BackGround
+    uniqueID: 1456366079
+    locked: 0
   - name: Monster
     uniqueID: 2475555015
     locked: 0
   - name: MonsterUI
     uniqueID: 1343583349
+    locked: 0
+  - name: Player
+    uniqueID: 1311115501
     locked: 0
   - name: Effect
     uniqueID: 2182117429
