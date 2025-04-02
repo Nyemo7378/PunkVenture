@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sword
   m_EditorClassIdentifier: 
   name: Sword
-  detail: "\uAC80"
+  detail: "\uB9DE\uC73C\uBA74 \uC544\uD514"
   icon: {fileID: 21300000, guid: 202611666c230b54281fff6c1a8e8588, type: 3}
   type: 0
   count: 1

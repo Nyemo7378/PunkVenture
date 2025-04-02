@@ -59,6 +59,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoin
 
     public void OnPointerUp(PointerEventData eventData)
     {
+
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventData, results);
 
@@ -77,16 +78,56 @@ public class Draggable : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoin
             }
         }
 
-        if(targetSlot != null)
-        {
-            Slot mySlot = gameObject.GetComponentInParent<Slot>();
-            mySlot.Swap(targetSlot);
-        }
-
         // 원래 위치로 돌아가기 옵션
         if (returnToOriginalPosition)
         {
             rectTransform.localPosition = originalPosition;
+        }
+
+        if (targetSlot != null)
+        {
+            Slot mySlot = gameObject.GetComponentInParent<Slot>();
+
+            bool bEquip1 = mySlot.m_IsEquipSlot;
+            bool bEquip2 = targetSlot.m_IsEquipSlot;
+
+            if(bEquip1 == true && bEquip2 == true)
+            {
+                mySlot.Swap(targetSlot);
+                return;
+            }
+            if(bEquip1 == bEquip2)
+            {
+                mySlot.Swap(targetSlot);
+                return;
+            }
+
+            // 여기서 둘중 하나는 장비슬롯이라는거 확정
+            Slot EquipSlot;
+            Slot GeneralSlot;
+            if (bEquip1)
+            {
+                EquipSlot = mySlot;
+                GeneralSlot = targetSlot;
+            }
+            else 
+            { 
+                EquipSlot = targetSlot;
+                GeneralSlot = mySlot;
+            }
+
+            // GeneralSlot에 장비아이템이 없다? Swap안함
+
+            if(GeneralSlot.m_item != null)
+            {
+                if (GeneralSlot.m_item.IsEquipable() == false)
+                {
+                    return;
+                }
+            }
+
+            mySlot.Swap(targetSlot);
+            return;
         }
     }
 }

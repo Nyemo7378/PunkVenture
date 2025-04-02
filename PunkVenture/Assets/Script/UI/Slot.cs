@@ -12,6 +12,7 @@ public class Slot : MonoBehaviour
     [SerializeField] Image m_iconImage;
     [SerializeField] Text m_countText;
     public Item m_item;
+    public bool m_IsEquipSlot = false;
 
     public bool Insert(Item sourceItem)
     {
@@ -47,6 +48,11 @@ public class Slot : MonoBehaviour
 
     public void Swap(Slot other)
     {
+        if(other == this)
+        {
+            return;
+        }
+
         Item temp1 = null;
         Item temp2 = null;
 

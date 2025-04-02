@@ -11,19 +11,33 @@ public class PlayerManager : MonoBehaviour, IPlayer
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float jumpHeight = 5f;
     [SerializeField] private float attackRange = 1.5f;
-    [SerializeField] private Vector2 attackRangeOffset = new Vector2(1.0f, 0.0f); // 공격 범위 위치 조정 가능
+    [SerializeField] private Vector2 attackRangeOffset = new Vector2(1.0f, 0.0f);
     [SerializeField] private float attackDamage = 20f;
-    [SerializeField] private float animSpeed = 1.0f; // 애니메이션 재생 속도
-    [SerializeField] private bool attacking = false; // 공격 중인지 확인
+    [SerializeField] private float animSpeed = 1.0f;
+    [SerializeField] private bool attacking = false;
 
     [Header("공격 관련")]
-    [SerializeField] private LayerMask enemyLayers; // 적 감지 레이어
+    [SerializeField] private LayerMask enemyLayers;
 
     [Header("키 값")]
     [SerializeField] private KeyCode moveLeftKey = KeyCode.A;
     [SerializeField] private KeyCode moveRightKey = KeyCode.D;
     [SerializeField] private KeyCode jumpKey = KeyCode.Space;
     [SerializeField] private KeyCode attackKey = KeyCode.Mouse0;
+    [SerializeField] private KeyCode dashKey = KeyCode.LeftShift;
+    [SerializeField] private KeyCode interactKey = KeyCode.E;
+    [SerializeField] private KeyCode reloadKey = KeyCode.R;
+    [SerializeField] private KeyCode switchWeaponKey = KeyCode.Q;
+
+    [Header("대시 관련")]
+    [SerializeField] private float dashSpeed = 20f;
+    [SerializeField] private float dashDuration = 0.2f;
+    [SerializeField] private float dashCooldown = 1.0f;
+    private bool canDash = true;
+
+    [Header("설정 UI")]
+    [SerializeField] private GameObject settingPrefab;
+    private GameObject settingInstance;
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -36,11 +50,20 @@ public class PlayerManager : MonoBehaviour, IPlayer
         spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        animator.SetFloat("AttackSpeed", animSpeed); // 애니메이션 속도 적용
+        animator.SetFloat("AttackSpeed", animSpeed);
+
+        // 설정 UI 프리팹을 UICanvas에 추가
+        GameObject uiCanvas = GameObject.Find("UICanvas");
+        if (uiCanvas != null && settingPrefab != null)
+        {
+            settingInstance = Instantiate(settingPrefab, uiCanvas.transform);
+            settingInstance.SetActive(false);
+        }
     }
+
     public void AddExp(float expAmount)
     {
-        EXP += expAmount; // 경험치 추가
+        EXP += expAmount;
     }
 
     private void Update()
@@ -48,7 +71,44 @@ public class PlayerManager : MonoBehaviour, IPlayer
         HandleMovement();
         HandleJump();
         HandleAttack();
+        HandleDash();
+        HandleInput();
     }
+
+    private void HandleInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && settingInstance != null)
+        {
+            settingInstance.SetActive(!settingInstance.activeSelf);
+        }
+    }
+
+    private void HandleDash()
+    {
+        if (Input.GetKeyDown(dashKey) && canDash)
+        {
+            StartCoroutine(Dash());
+        }
+    }
+
+    private IEnumerator Dash()
+    {
+        canDash = false;
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 dashDirection = (mousePosition - (Vector2)transform.position).normalized;
+
+        float startTime = Time.time;
+        while (Time.time < startTime + dashDuration)
+        {
+            rb.velocity = dashDirection * dashSpeed;
+            yield return null;
+        }
+        rb.velocity = Vector2.zero;
+
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;
+    }
+
     public void TakeHit(float damage)
     {
         health -= damage;
@@ -94,17 +154,6 @@ public class PlayerManager : MonoBehaviour, IPlayer
         }
     }
 
-    private void HandleAttack()
-    {
-        if (Input.GetKey(attackKey) && !attacking)
-        {
-            attacking = true;
-            animator.speed = animSpeed;
-            animator.SetTrigger("Attack1"); // 공격 애니메이션 실행
-        }
-    }
-
-    // 애니메이션 이벤트에서 호출하여 공격 적용
     public void PerformAttack()
     {
         // 공격 위치 계산 (방향에 따라 좌/우 조정)
@@ -122,6 +171,22 @@ public class PlayerManager : MonoBehaviour, IPlayer
                 monster.TakeHit(attackDamage);
             }
         }
+    }
+
+    private void HandleAttack()
+    {
+        if (Input.GetKey(attackKey) && !attacking)
+        {
+            attacking = true;
+            animator.speed = animSpeed;
+            animator.SetTrigger("Attack1");
+        }
+    }
+
+    public void ResetAttack()
+    {
+        attacking = false;
+        animator.speed = 1.0f;
     }
 
     private void Flip()
@@ -147,13 +212,6 @@ public class PlayerManager : MonoBehaviour, IPlayer
             animator.SetBool("Run", false);
             animator.SetBool("Jump", true);
         }
-    }
-
-    // 공격이 끝나면 애니메이션 이벤트에서 호출하여 공격 가능 상태로 변경
-    public void ResetAttack()
-    {
-        attacking = false;
-        animator.speed = 1.0f; // 기본 속도로 복구
     }
 
     private void OnDrawGizmosSelected()
