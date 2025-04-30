@@ -20,3 +20,7 @@ public interface IWeaponManager
 {
     void EquipWeapon(string name);
 }
+public interface IInvertory
+{
+    void AddItem(Item item);
+}

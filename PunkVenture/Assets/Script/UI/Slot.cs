@@ -14,6 +14,16 @@ public class Slot : MonoBehaviour
     public Item m_item;
     public bool m_IsEquipSlot = false;
 
+    [SerializeField] Item m_Inititem;
+
+    private void Awake()
+    {
+        if (m_Inititem == null)
+            return;
+
+        Insert(m_Inititem);
+    }
+
     public bool Insert(Item sourceItem)
     {
         if (sourceItem == null)

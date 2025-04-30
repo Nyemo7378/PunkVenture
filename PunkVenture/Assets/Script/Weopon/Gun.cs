@@ -5,13 +5,11 @@ using UnityEngine.EventSystems;
 
 public class Gun : MonoBehaviour
 {
-    public SpriteRenderer m_shotgun;
     public GameObject m_bulletPrefab;
     public Transform m_firePoint;  
     public float m_bulletSpeed = 10f;
     public int m_poolSize = 16;
     public IPlayer m_player;
-    public float cool = 0.2f;
 
     private Queue<Gun_Bullet> m_pool;
 
@@ -40,25 +38,13 @@ public class Gun : MonoBehaviour
 
     void Update()
     {
-        cool -= Time.deltaTime;
         if (!Input.GetMouseButtonDown(0))
         {
-            if(cool <= 0.0f)
-            {
-                Vector3 currentRotation0 = m_shotgun.transform.eulerAngles;
-                currentRotation0.z = 0;
-                m_shotgun.transform.eulerAngles = currentRotation0;
-                cool = 0.2f;
-            }
             return;
         }
 
         if (m_pool.Count <= 0)
             return;
-
-        Vector3 currentRotation = m_shotgun.transform.eulerAngles;
-        currentRotation.z = 25;
-        m_shotgun.transform.eulerAngles = currentRotation;
 
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;

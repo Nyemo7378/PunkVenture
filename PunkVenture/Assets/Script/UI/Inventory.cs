@@ -1,33 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] Slot m_slot;
-    [SerializeField] Slot m_slot2;
-    [SerializeField] Slot m_slot3;
-    [SerializeField] Item m_item;
-    [SerializeField] Item m_item2;
-    [SerializeField] Item m_item3;
-
+    [SerializeField] GameObject slotPrefab;
+    [SerializeField] uint slotCount = 12;
+    [SerializeField] List<Slot> SlotList;
     void Awake()
     {
-       
+        SlotList = new List<Slot>();
+        for (int i = 0; i < slotCount; i++)
+        {
+            GameObject prefab = Instantiate(slotPrefab, transform);
+            SlotList.Add(prefab.GetComponent<Slot>());
+            prefab.name = "Slot_" + i.ToString();
+        }
+
+
     }
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Z))
-        {
-            m_slot.Insert(m_item);
-        }
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            m_slot2.Insert(m_item2);
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            m_slot3.Insert(m_item3);
-        }
     }
 }

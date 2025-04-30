@@ -176,54 +176,8 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 1498190965973798276, guid: 312467b72be702d49a742087c90baa32, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1321700744390674282, guid: 312467b72be702d49a742087c90baa32, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 9049488439371753884}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 312467b72be702d49a742087c90baa32, type: 3}
---- !u!114 &813923832453837779 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3221298615274823112, guid: 312467b72be702d49a742087c90baa32, type: 3}
-  m_PrefabInstance: {fileID: 2882296529686326811}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1104381936075785997 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2930846002416757014, guid: 312467b72be702d49a742087c90baa32, type: 3}
-  m_PrefabInstance: {fileID: 2882296529686326811}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &3866453251655068017 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1321700744390674282, guid: 312467b72be702d49a742087c90baa32, type: 3}
-  m_PrefabInstance: {fileID: 2882296529686326811}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &9049488439371753884
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3866453251655068017}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7806ef9f50dfee944aca03a9258eb00e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_iconImage: {fileID: 1104381936075785997}
-  m_countText: {fileID: 813923832453837779}
-  m_item: {fileID: 0}
-  m_IsEquipSlot: 1
 --- !u!224 &5884745547220905817 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8526767139139518786, guid: 312467b72be702d49a742087c90baa32, type: 3}
