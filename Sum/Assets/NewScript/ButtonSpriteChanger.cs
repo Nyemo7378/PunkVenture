@@ -1,32 +1,32 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement; // Àå¸é ÀüÈ¯À» À§ÇÑ ³×ÀÓ½ºÆäÀÌ½º
+using UnityEngine.SceneManagement;
 
 public class ButtonSceneChanger : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    public Image targetImage;         // ¹öÆ°ÀÇ Image ÄÄÆ÷³ÍÆ®
-    public Sprite defaultSprite;      // ±âº» ½ºÇÁ¶óÀÌÆ® (¿ø·¡ »óÅÂ)
-    public Sprite clickedSprite;      // Å¬¸¯ ½Ã ¹Ù²Ü ½ºÇÁ¶óÀÌÆ®
-    public string sceneName;          // ÀüÈ¯ÇÒ Àå¸é ÀÌ¸§
+    public Image targetImage;
+    public Sprite defaultSprite;
+    public Sprite clickedSprite;
+    public string sceneName;
 
-    // ¹öÆ°À» ´­·¶À» ¶§ È£ÃâµÇ´Â ÇÔ¼ö (IPointerDownHandler)
     public void OnPointerDown(PointerEventData eventData)
     {
-        targetImage.sprite = clickedSprite;  // Å¬¸¯ÇÏ¸é ½ºÇÁ¶óÀÌÆ® º¯°æ
+        targetImage.sprite = clickedSprite;
     }
 
-    // ¹öÆ°¿¡¼­ ¼ÕÀ» ¶ÃÀ» ¶§ È£ÃâµÇ´Â ÇÔ¼ö (IPointerUpHandler)
     public void OnPointerUp(PointerEventData eventData)
     {
-        targetImage.sprite = defaultSprite;  // ¼ÕÀ» ¶¼¸é ¿ø·¡ ½ºÇÁ¶óÀÌÆ®·Î µ¹¾Æ¿È
-        ChangeScene();  // ¼Õ ¶¼¸é Àå¸é º¯°æ
+        targetImage.sprite = defaultSprite;
+
+        // ğŸ”Š ë²„íŠ¼ í´ë¦­ íš¨ê³¼ìŒ
+        SEManager.Instance.Play("buttonClick");
+
+        ChangeScene();
     }
 
-    // Àå¸é ÀüÈ¯ ÇÔ¼ö
     private void ChangeScene()
     {
-        // Àå¸é ÀüÈ¯
         SceneManager.LoadScene(sceneName);
     }
 }

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +10,8 @@ public class Card : MonoBehaviour
     private bool isHovered = false;
     public float animationDuration = 1.0f;
 
+    private bool interactable = true; // 👉 카드 클릭 가능 여부
+
     void Start()
     {
         originalScale = transform.localScale;
@@ -18,6 +20,8 @@ public class Card : MonoBehaviour
 
     void Update()
     {
+        if (!interactable) return;
+
         if (isHovered)
         {
             transform.localScale = Vector3.Lerp(originalScale, targetScale, Mathf.PingPong(Time.time * animationDuration, 1));
@@ -28,8 +32,26 @@ public class Card : MonoBehaviour
         }
     }
 
-    void OnMouseEnter() => isHovered = true;
-    void OnMouseExit() => isHovered = false;
+    void OnMouseEnter()
+    {
+        if (!interactable) return;
+        isHovered = true;
+    }
+
+    void OnMouseExit()
+    {
+        if (!interactable) return;
+        isHovered = false;
+    }
+
+    void OnMouseDown()
+    {
+        if (!interactable) return;
+
+        SEManager.Instance.Play("click");
+
+        FindObjectOfType<CardManager>().OnCardClicked(this);
+    }
 
     public int GetNumber() => cardNumber;
 
@@ -56,8 +78,21 @@ public class Card : MonoBehaviour
         Debug.LogWarning($"Sprite '{targetName}' not found in cardsheet.");
     }
 
-    void OnMouseDown()
+    // ✅ 외부에서 클릭 가능 여부 제어
+    public void SetInteractable(bool value)
     {
-        FindObjectOfType<CardManager>().OnCardClicked(this);
+        interactable = value;
     }
+
+    public void Explode(Vector2 forceDir, float forcePower, float torque = 0f)
+    {
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb == null)
+            rb = gameObject.AddComponent<Rigidbody2D>();
+
+        rb.gravityScale = 0; // 중력은 제거
+        rb.AddForce(forceDir * forcePower, ForceMode2D.Impulse);
+        rb.AddTorque(torque, ForceMode2D.Impulse);
+    }
+
 }

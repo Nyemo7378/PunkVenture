@@ -22,6 +22,13 @@ public class CardManager : MonoBehaviour
     public Transform cardEntryPoint;
     public Transform cardExitPoint;
 
+    private bool canDraw = true; // 🛑 타이머 종료 시 false로 설정
+
+    public void SetDrawEnabled(bool enabled)
+    {
+        canDraw = enabled;
+    }
+
     void Start()
     {
         cards = new Dictionary<int, List<GameObject>>();
@@ -42,6 +49,8 @@ public class CardManager : MonoBehaviour
 
     void Update()
     {
+        if (!canDraw) return;
+
         if (Input.GetKeyDown(drawKey))
         {
             AddCard();
@@ -64,6 +73,9 @@ public class CardManager : MonoBehaviour
             UpdateColliders(num);
 
             StartCoroutine(FlyInCard(obj, initPos[num] + offset));
+
+            // 🔊 카드 뽑기 효과음
+            SEManager.Instance.Play("draw");
         }
         else
         {
@@ -140,6 +152,9 @@ public class CardManager : MonoBehaviour
             int points = tableCards.Count * tableCards.Count;
             Score.Instance.AddScore(points);
 
+            // 🔊 점수 효과음 재생
+            SEManager.Instance.Play("score");
+
             foreach (var card in tableCards)
             {
                 StartCoroutine(FlyOutCard(card));
@@ -148,7 +163,6 @@ public class CardManager : MonoBehaviour
             tableCards.Clear();
         }
     }
-
 
     void UpdateColliders(int num)
     {
@@ -171,7 +185,6 @@ public class CardManager : MonoBehaviour
             card.transform.position = pos;
         }
     }
-
 
     IEnumerator FlyInCard(GameObject card, Vector3 targetPos)
     {

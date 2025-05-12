@@ -5,7 +5,7 @@ public class Score : MonoBehaviour
     // Singleton instance
     public static Score Instance;
 
-    private int score;
+    public int score;
 
     // UI 텍스트를 연결할 변수
     public UnityEngine.UI.Text scoreText;
@@ -49,7 +49,7 @@ public class Score : MonoBehaviour
     {
         if (scoreText != null)
         {
-            scoreText.text = "Score: " + score.ToString();
+            scoreText.text = "score: " + score.ToString();
         }
     }
 }
