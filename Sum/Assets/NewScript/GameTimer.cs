@@ -22,6 +22,7 @@ public class GameTimer : MonoBehaviour
     public RankingUploader rankingUploader;
     public RankingDownloader rankingDownloader;
     public RankingDisplay rankingDisplay;
+    public GameObject rankingPanel;
 
     private float timeLeft;
     private bool isTimeOver = false;
@@ -77,6 +78,8 @@ public class GameTimer : MonoBehaviour
             return;
         }
 
+        rankingPanel.SetActive(true);
+
         string playerName = System.Environment.UserName;
         int finalScore = Score.Instance.score;
         string ticks = System.DateTime.Now.Ticks.ToString(); // ✅ 고유 업로드 시간
@@ -92,7 +95,7 @@ public class GameTimer : MonoBehaviour
         rankingUploader.Upload(name, score, ticks, () => { done = true; });
 
         yield return new WaitUntil(() => done);
-        yield return new WaitForSeconds(1.5f); // Google 시트 반영 대기
+        //yield return new WaitForSeconds(0.1f); // Google 시트 반영 대기
 
         rankingDisplay.SetLastUploadedEntry(name, score, ticks);
         rankingDownloader.Download();

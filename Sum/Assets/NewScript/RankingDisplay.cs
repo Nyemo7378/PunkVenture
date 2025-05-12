@@ -44,17 +44,17 @@ public class RankingDisplay : MonoBehaviour
                     entry.score == lastUploadedScore &&
                     entry.ticks.Trim() == lastUploadedTicks)
                 {
-                    rankTexts[i].color = new Color(0f, 1f, 1f); // 청록
+                    rankTexts[i].color = new Color(1f, 0f, 0f); // 청록
                 }
                 else
                 {
-                    rankTexts[i].color = new Color(0.9f, 0.9f, 0.9f); // 회색
+                    rankTexts[i].color = new Color(0.0f, 0.0f, 0.0f); // 회색
                 }
             }
             else
             {
                 rankTexts[i].text = $"{i + 1}. ---";
-                rankTexts[i].color = new Color(0.9f, 0.9f, 0.9f);
+                rankTexts[i].color = new Color(0.0f, 0.0f, 0.0f);
             }
         }
     }

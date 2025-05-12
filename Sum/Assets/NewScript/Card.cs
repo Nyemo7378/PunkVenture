@@ -90,9 +90,16 @@ public class Card : MonoBehaviour
         if (rb == null)
             rb = gameObject.AddComponent<Rigidbody2D>();
 
-        rb.gravityScale = 0; // 중력은 제거
+        rb.gravityScale = 0; // 중력 제거
         rb.AddForce(forceDir * forcePower, ForceMode2D.Impulse);
         rb.AddTorque(torque, ForceMode2D.Impulse);
+
+        Invoke(nameof(DisableSelf), 5f); // 5초 후 호출
+    }
+
+    private void DisableSelf()
+    {
+        gameObject.SetActive(false);
     }
 
 }
