@@ -1,10 +1,13 @@
-﻿using System.Collections;
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Card : MonoBehaviour
 {
     public int cardNumber;
+    public int lastStackKey = -1; // 마지막으로 있던 스택 키 저장
+
     private Vector3 originalScale;
     private Vector3 targetScale;
     private bool isHovered = false;
@@ -14,7 +17,7 @@ public class Card : MonoBehaviour
     public void SetMoving(bool value)
     {
         isMoving = value;
-        SetInteractable(!value); // 이동 중일 땐 클릭 불가
+        SetInteractable(!value);
     }
 
     public bool IsMoving()
@@ -22,7 +25,7 @@ public class Card : MonoBehaviour
         return isMoving;
     }
 
-    private bool interactable = true; // 👉 카드 클릭 가능 여부
+    private bool interactable = true;
 
     void Start()
     {
@@ -61,7 +64,6 @@ public class Card : MonoBehaviour
         if (!interactable) return;
 
         SEManager.Instance.Play("click");
-
         FindObjectOfType<CardManager>().OnCardClicked(this);
     }
 
@@ -90,7 +92,6 @@ public class Card : MonoBehaviour
         Debug.LogWarning($"Sprite '{targetName}' not found in cardsheet.");
     }
 
-    // ✅ 외부에서 클릭 가능 여부 제어
     public void SetInteractable(bool value)
     {
         interactable = value;
@@ -102,16 +103,15 @@ public class Card : MonoBehaviour
         if (rb == null)
             rb = gameObject.AddComponent<Rigidbody2D>();
 
-        rb.gravityScale = 0; // 중력 제거
+        rb.gravityScale = 0;
         rb.AddForce(forceDir * forcePower, ForceMode2D.Impulse);
         rb.AddTorque(torque, ForceMode2D.Impulse);
 
-        Invoke(nameof(DisableSelf), 5f); // 5초 후 호출
+        Invoke(nameof(DisableSelf), 5f);
     }
 
     private void DisableSelf()
     {
         gameObject.SetActive(false);
     }
-
 }
