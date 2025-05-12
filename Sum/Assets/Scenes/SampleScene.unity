@@ -1367,7 +1367,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b5b498d97e9c3a4da815698e49b0dfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeLimit: 90
+  timeLimit: 30
   timerText: {fileID: 2069163579}
   scoreText: {fileID: 1788476647}
   endTextObject: {fileID: 158348515}

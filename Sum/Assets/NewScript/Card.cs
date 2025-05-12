@@ -9,6 +9,18 @@ public class Card : MonoBehaviour
     private Vector3 targetScale;
     private bool isHovered = false;
     public float animationDuration = 1.0f;
+    private bool isMoving = false;
+
+    public void SetMoving(bool value)
+    {
+        isMoving = value;
+        SetInteractable(!value); // 이동 중일 땐 클릭 불가
+    }
+
+    public bool IsMoving()
+    {
+        return isMoving;
+    }
 
     private bool interactable = true; // 👉 카드 클릭 가능 여부
 

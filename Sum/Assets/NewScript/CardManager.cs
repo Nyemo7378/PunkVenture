@@ -188,6 +188,9 @@ public class CardManager : MonoBehaviour
 
     IEnumerator FlyInCard(GameObject card, Vector3 targetPos)
     {
+        Card cardComponent = card.GetComponent<Card>();
+        if (cardComponent != null) cardComponent.SetMoving(true);
+
         float t = 0f;
         Vector3 start = card.transform.position;
 
@@ -199,10 +202,16 @@ public class CardManager : MonoBehaviour
         }
 
         card.transform.position = targetPos;
+
+        if (cardComponent != null) cardComponent.SetMoving(false);
     }
+
 
     IEnumerator FlyOutCard(GameObject card)
     {
+        Card cardComponent = card.GetComponent<Card>();
+        if (cardComponent != null) cardComponent.SetMoving(true);
+
         float t = 0f;
         Vector3 start = card.transform.position;
         Vector3 target = cardExitPoint.position;
@@ -215,6 +224,8 @@ public class CardManager : MonoBehaviour
         }
 
         card.transform.position = target;
+
         Destroy(card);
     }
+
 }
