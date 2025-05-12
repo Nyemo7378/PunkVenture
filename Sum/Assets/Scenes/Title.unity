@@ -771,8 +771,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9062480854404737647, guid: 4fa1eebb8d012b247b0677387892c66c, type: 3}
-      propertyPath: soundEffects.Array.data[0].volume
-      value: 1
+      propertyPath: masterVolume
+      value: 0.611
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

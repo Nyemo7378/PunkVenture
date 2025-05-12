@@ -18,6 +18,8 @@ public class CardManager : MonoBehaviour
     [Header("Card Layout Settings")]
     public Vector3 playerCardStartOffset = new Vector3(-1.2f, -0.5f);
     public float stackCardSpacingY = 0.5f;
+    [Tooltip("최대 몇 줄까지 카드가 쌓일 수 있는지 설정")]
+    public int maxStackRows = 2;
     public int maxCardsInTable = 5;
 
     int sortOrder = 32766;
@@ -68,7 +70,20 @@ public class CardManager : MonoBehaviour
     void AddCard()
     {
         int cardNum = Random.Range(1, 10); // 숫자는 랜덤
-        int targetStack = GetRandomStackKey(); // 들어갈 스택도 랜덤
+        
+        List<int> availableStacks = new List<int>();
+        foreach (var kv in cards)
+            if (kv.Value.Count < maxStackRows)
+                availableStacks.Add(kv.Key);
+
+        if (availableStacks.Count == 0)
+        {
+            Debug.Log("모든 스택이 가득 찼습니다. 카드를 뽑을 수 없습니다.");
+            return;
+        }
+
+        int targetStack = availableStacks[Random.Range(0, availableStacks.Count)];
+ // 들어갈 스택도 랜덤
 
         if (Score.Instance.SubtractScore(drawPrice))
         {
@@ -79,6 +94,12 @@ public class CardManager : MonoBehaviour
             Vector3 offset = new Vector3(0, -stackCardSpacingY * cards[targetStack].Count, 0);
             obj.transform.position = cardEntryPoint ? cardEntryPoint.position : new Vector3(-10, initPos[targetStack].y, 0);
 
+            if (cards[targetStack].Count >= maxStackRows)
+            {
+                Destroy(obj);
+                Debug.Log("더 이상 해당 스택에 카드를 추가할 수 없습니다.");
+                return;
+            }
             cards[targetStack].Add(obj);
             UpdateColliders(targetStack);
             StartCoroutine(FlyInCard(obj, initPos[targetStack] + offset));
@@ -136,7 +157,7 @@ public class CardManager : MonoBehaviour
                 RepositionStack(curStack);
             }
 
-            int insertIndex = tableCards.Count / 2;
+            int insertIndex = tableCards.Count;
             tableCards.Insert(insertIndex, card.gameObject);
             ReorderTableCards();
             CheckAndRemoveCards();

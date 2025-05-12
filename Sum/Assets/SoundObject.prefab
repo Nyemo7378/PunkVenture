@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bgmClip: {fileID: 8300000, guid: 4e772c697ae8e374b8a089e20ab48ff0, type: 3}
-  volume: 0.408
+  volume: 0.413
 --- !u!114 &9062480854404737647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,12 +62,17 @@ MonoBehaviour:
   soundEffects:
   - name: draw
     clip: {fileID: 8300000, guid: 61a9ac1c45360e042921dd8726491da3, type: 3}
+    volume: 1
   - name: click
     clip: {fileID: 8300000, guid: 8d89d48f838f44a408b0ca463d87e7dd, type: 3}
+    volume: 1
   - name: score
     clip: {fileID: 8300000, guid: 61a9ac1c45360e042921dd8726491da3, type: 3}
+    volume: 1
   - name: buttonClick
     clip: {fileID: 8300000, guid: 8d89d48f838f44a408b0ca463d87e7dd, type: 3}
+    volume: 1
   - name: end
     clip: {fileID: 8300000, guid: 61593a45914dc9d41a2c63c5f2519868, type: 3}
-  volume: 1
+    volume: 1
+  masterVolume: 0
