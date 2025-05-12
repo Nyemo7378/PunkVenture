@@ -15,6 +15,7 @@ public class CardManager : MonoBehaviour
     public KeyCode drawKey = KeyCode.Space;
     public int drawPrice = 2;
     public Vector3 playerCardStartOffset = new Vector3(-1.2f, -0.5f);
+    public int maxCardsInTable = 5; // 최대 카드 수
 
     int sortOrder = 32766;
     List<GameObject> tableCards = new List<GameObject>();
@@ -86,6 +87,13 @@ public class CardManager : MonoBehaviour
     public void OnCardClicked(Card card)
     {
         int num = card.cardNumber;
+
+        // 테이블에 이미 5개 이상의 카드가 있으면 더 이상 카드를 이동하지 않음
+        if (tableCards.Count >= maxCardsInTable && !tableCards.Contains(card.gameObject))
+        {
+            Debug.Log("카드가 5개 이상입니다. 더 이상 카드를 이동할 수 없습니다.");
+            return;
+        }
 
         if (tableCards.Contains(card.gameObject))
         {
