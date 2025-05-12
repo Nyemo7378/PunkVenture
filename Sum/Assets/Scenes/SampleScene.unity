@@ -916,7 +916,7 @@ MonoBehaviour:
   tablePosition: {x: 4.5, y: 2, z: 0}
   tableCardSpacingX: 1.5
   drawKey: 32
-  drawPrice: 1
+  drawPrice: 2
   playerCardStartOffset: {x: -1.2, y: -0.5, z: 0}
   cardEntryPoint: {fileID: 1107859897}
   cardExitPoint: {fileID: 670521269}
