@@ -21,6 +21,8 @@ public class CardManager : MonoBehaviour
     [Tooltip("최대 몇 줄까지 카드가 쌓일 수 있는지 설정")]
     public int maxStackRows = 2;
     public int maxCardsInTable = 5;
+    [Tooltip("시간 보너스점수 배율")]
+    public float timeBonusRate = 1.0f;
 
     int sortOrder = 32766;
     List<GameObject> tableCards = new List<GameObject>();
@@ -227,11 +229,22 @@ public class CardManager : MonoBehaviour
         {
             sum += card.GetComponent<Card>().GetNumber();
         }
+
+        // 카드의 합이 10의 배수일 때마다 제한 시간 증가
         if (sum % 10 == 0 && sum != 0)
         {
-            int points = tableCards.Count * tableCards.Count;
-            Score.Instance.AddScore(points);
+            int bonusTime = sum / 10;  // 카드 합이 10, 20, 30...일 때 그에 맞는 초 추가
+            Score.Instance.AddScore(bonusTime);  // 점수 추가 (필요에 따라 수정 가능)
+
+            // 보너스 시간 추가 로직
+            GameTimer gameTimer = FindObjectOfType<GameTimer>();
+            if (gameTimer != null)
+            {
+                gameTimer.AddTime(bonusTime * timeBonusRate);  // 제한 시간에 추가
+            }
+
             SEManager.Instance.Play("score");
+
             foreach (var card in tableCards)
             {
                 StartCoroutine(FlyOutCard(card));
@@ -239,6 +252,9 @@ public class CardManager : MonoBehaviour
             tableCards.Clear();
         }
     }
+
+
+
 
     int GetCurrentStackKey(GameObject card)
     {

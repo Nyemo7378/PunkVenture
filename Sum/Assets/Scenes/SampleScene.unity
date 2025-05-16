@@ -594,7 +594,7 @@ MonoBehaviour:
     m_LineSpacing: 0.87
   m_Text: "10\uC758 \uBC30\uC218\uB97C \uB9CC\uB4E4\uC790!\n\n\uC7A5\uC218\uAC00
     \uB9CE\uB2E4\uBA74 \uC810\uC218UP!\n\n\uAC19\uC740\uC22B\uC790\uAC00 \uB9CE\uB2E4\uBA74
-    \uC810\uC218UP!\n\n\uBC30\uC218\uAC00 \uB192\uB2E4\uBA74 \uC2DC\uAC04UP!"
+    \uC810\uC218UP!\n\n\uB192\uC740 \uC22B\uC790\uC77C\uC218\uB85D \uC2DC\uAC04UP!"
 --- !u!222 &594615373
 CanvasRenderer:
   m_ObjectHideFlags: 0

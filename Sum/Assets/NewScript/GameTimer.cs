@@ -132,4 +132,10 @@ public class GameTimer : MonoBehaviour
             yield return null;
         }
     }
+
+    public void AddTime(float seconds)
+    {
+        timeLeft += seconds;
+    }
+
 }
