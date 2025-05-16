@@ -21,7 +21,7 @@ public class CardManager : MonoBehaviour
     [Tooltip("최대 몇 줄까지 카드가 쌓일 수 있는지 설정")]
     public int maxStackRows = 2;
     public int maxCardsInTable = 5;
-    [Tooltip("시간 보너스점수 배율")]
+    [Tooltip("시간 보너스 배율")]
     public float timeBonusRate = 1.0f;
 
     int sortOrder = 32766;
@@ -149,14 +149,6 @@ public class CardManager : MonoBehaviour
             Debug.Log("점수가 부족하여 카드를 추가할 수 없습니다.");
         }
     }
-
-    int GetRandomStackKey()
-    {
-        List<int> keys = new List<int>(cards.Keys);
-        int index = Random.Range(0, keys.Count);
-        return keys[index];
-    }
-
     
     public void OnCardClicked(Card card)
     {
@@ -221,30 +213,62 @@ public class CardManager : MonoBehaviour
             StartCoroutine(FlyInCard(tableCards[i], target));
         }
     }
-
     void CheckAndRemoveCards()
     {
         int sum = 0;
+        Dictionary<int, int> numberCount = new Dictionary<int, int>(); // 각 숫자의 개수를 저장할 딕셔너리
+
+        // 각 카드 숫자 합산 및 숫자별 개수 세기
         foreach (var card in tableCards)
         {
-            sum += card.GetComponent<Card>().GetNumber();
+            int cardNum = card.GetComponent<Card>().GetNumber();
+            sum += cardNum;
+
+            // 숫자별 개수 증가
+            if (numberCount.ContainsKey(cardNum))
+            {
+                numberCount[cardNum]++;
+            }
+            else
+            {
+                numberCount[cardNum] = 1;
+            }
         }
 
-        // 카드의 합이 10의 배수일 때마다 제한 시간 증가
+        // 카드 합이 10의 배수일 경우에만 처리
         if (sum % 10 == 0 && sum != 0)
         {
-            int bonusTime = sum / 10;  // 카드 합이 10, 20, 30...일 때 그에 맞는 초 추가
-            Score.Instance.AddScore(bonusTime);  // 점수 추가 (필요에 따라 수정 가능)
+            // 첫 번째 규칙: 기본 점수 계산 (카드 개수의 제곱)
+            int basePoints = tableCards.Count * tableCards.Count;
 
-            // 보너스 시간 추가 로직
+            // 두 번째 규칙: 중복된 숫자에 따른 보너스 점수 계산
+            int duplicateBonusPoints = 0;
+            foreach (var kv in numberCount)
+            {
+                int count = kv.Value;
+                if (count > 1)
+                {
+                    duplicateBonusPoints += count;  // 중복된 숫자 개수에 따라 보너스 추가 (예: 2개 -> 1점, 3개 -> 2점)
+                }
+            }
+
+            // 기본 점수와 중복 점수를 합산
+            int totalPoints = basePoints + duplicateBonusPoints;
+
+            // 세 번째 규칙: 카드의 합이 10의 배수일 때마다 제한 시간 증가
+            int timeBonus = (sum / 10); // 10의 배수마다 증가하는 시간
             GameTimer gameTimer = FindObjectOfType<GameTimer>();
             if (gameTimer != null)
             {
-                gameTimer.AddTime(bonusTime * timeBonusRate);  // 제한 시간에 추가
+                gameTimer.AddTime(timeBonus);  // 제한 시간에 추가 (10의 배수마다 1초씩 증가)
             }
+
+            // 최종 보너스 점수 계산
+            Score.Instance.AddScore(totalPoints);  // 최종 점수 추가
 
             SEManager.Instance.Play("score");
 
+            // 카드 제거 후 재정렬
             foreach (var card in tableCards)
             {
                 StartCoroutine(FlyOutCard(card));
@@ -252,7 +276,6 @@ public class CardManager : MonoBehaviour
             tableCards.Clear();
         }
     }
-
 
 
 

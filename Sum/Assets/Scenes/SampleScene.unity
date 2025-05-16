@@ -581,7 +581,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 74534c1ecaf5a2248b92c9dcb3864b61, type: 3}
-    m_FontSize: 26
+    m_FontSize: 24
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -591,10 +591,11 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 0.87
-  m_Text: "10\uC758 \uBC30\uC218\uB97C \uB9CC\uB4E4\uC790!\n\n\uC7A5\uC218\uAC00
-    \uB9CE\uB2E4\uBA74 \uC810\uC218UP!\n\n\uAC19\uC740\uC22B\uC790\uAC00 \uB9CE\uB2E4\uBA74
-    \uC810\uC218UP!\n\n\uB192\uC740 \uC22B\uC790\uC77C\uC218\uB85D \uC2DC\uAC04UP!"
+    m_LineSpacing: 1
+  m_Text: "10\uC758 \uBC30\uC218\uB97C \uB9CC\uB4E4\uC790!\n\n\uB9CE\uC740 \uCE74\uB4DC\uB85C
+    \uC870\uD569\uD560\uC218\uB85D \uC810\uC218UP!\n\n\uAC19\uC740 \uC22B\uC790\uAC00
+    \uB9CE\uC744\uC218\uB85D \uC810\uC218UP!\n\n\uD569\uC774 \uB192\uC740 \uC22B\uC790\uC77C\uC218\uB85D
+    \uC2DC\uAC04UP!"
 --- !u!222 &594615373
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2484,6 +2485,7 @@ MonoBehaviour:
   stackCardSpacingY: 1.5
   maxStackRows: 2
   maxCardsInTable: 5
+  timeBonusRate: 1
   cardEntryPoint: {fileID: 1107859897}
   cardExitPoint: {fileID: 670521269}
 --- !u!1 &2069163578

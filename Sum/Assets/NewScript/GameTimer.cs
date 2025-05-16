@@ -133,7 +133,7 @@ public class GameTimer : MonoBehaviour
         }
     }
 
-    public void AddTime(float seconds)
+    public void AddTime(int seconds)
     {
         timeLeft += seconds;
     }
