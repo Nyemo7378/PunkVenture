@@ -56,6 +56,43 @@ public class CardManager : MonoBehaviour
             cards[n].Add(obj);
             UpdateColliders(n);
         }
+
+        for (int i = 0; i < 9; i++)
+        {
+            int cardNum = Random.Range(1, 10); // 숫자는 랜덤
+
+            List<int> availableStacks = new List<int>();
+            foreach (var kv in cards)
+                if (kv.Value.Count < maxStackRows)
+                    availableStacks.Add(kv.Key);
+
+            if (availableStacks.Count == 0)
+            {
+                Debug.Log("모든 스택이 가득 찼습니다. 카드를 뽑을 수 없습니다.");
+                return;
+            }
+
+            int targetStack = availableStacks[Random.Range(0, availableStacks.Count)];
+            // 들어갈 스택도 랜덤
+
+
+            GameObject obj = Instantiate(cardPrefab);
+            obj.GetComponent<Card>().SetNumber(cardNum);
+            obj.GetComponent<SpriteRenderer>().sortingOrder = sortOrder--;
+
+            Vector3 offset = new Vector3(0, -stackCardSpacingY * cards[targetStack].Count, 0);
+            obj.transform.position = cardEntryPoint ? cardEntryPoint.position : new Vector3(-10, initPos[targetStack].y, 0);
+
+            if (cards[targetStack].Count >= maxStackRows)
+            {
+                Destroy(obj);
+                Debug.Log("더 이상 해당 스택에 카드를 추가할 수 없습니다.");
+                return;
+            }
+            cards[targetStack].Add(obj);
+            UpdateColliders(targetStack);
+            obj.transform.position = initPos[targetStack] + offset;
+        }
     }
 
     void Update()
