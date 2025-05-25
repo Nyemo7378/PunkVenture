@@ -13,8 +13,11 @@ public class CardManager : MonoBehaviour
     public float animationDuration = 1.0f;
     public Vector3 tablePosition = new Vector3(0, 2, 0);
     public float tableCardSpacingX = 1.5f;
-    public KeyCode drawKey = KeyCode.Space;
+    [Header("키셋팅")]
+    public KeyCode drawKey = KeyCode.Q;
     public int drawPrice = 2;
+    public KeyCode checkKey = KeyCode.Space;
+  
     [Header("Card Layout Settings")]
     public Vector3 playerCardStartOffset = new Vector3(-1.2f, -0.5f);
     public float stackCardSpacingY = 0.5f;
@@ -104,9 +107,13 @@ public class CardManager : MonoBehaviour
         {
             AddCard();
         }
+        if(Input.GetKeyDown(checkKey))
+        {
+            CheckAndRemoveCards();
+        }
     }
 
-    void AddCard()
+    public void AddCard()
     {
         int cardNum = Random.Range(1, 10); // 숫자는 랜덤
         
@@ -175,7 +182,7 @@ public class CardManager : MonoBehaviour
 
             tableCards.Remove(card.gameObject);
             ReorderTableCards();
-            CheckAndRemoveCards();
+            //CheckAndRemoveCards();
         }
         else
         {
@@ -191,7 +198,7 @@ public class CardManager : MonoBehaviour
             int insertIndex = tableCards.Count;
             tableCards.Insert(insertIndex, card.gameObject);
             ReorderTableCards();
-            CheckAndRemoveCards();
+            //CheckAndRemoveCards();
         }
     }
     void RepositionStack(int num)
@@ -213,7 +220,7 @@ public class CardManager : MonoBehaviour
             StartCoroutine(FlyInCard(tableCards[i], target));
         }
     }
-    void CheckAndRemoveCards()
+    public void CheckAndRemoveCards()
     {
         int sum = 0;
         Dictionary<int, int> numberCount = new Dictionary<int, int>(); // 각 숫자의 개수를 저장할 딕셔너리

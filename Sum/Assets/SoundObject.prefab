@@ -45,8 +45,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a78584c7df051c45a48bb63c93213a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bgmClip: {fileID: 8300000, guid: 4e772c697ae8e374b8a089e20ab48ff0, type: 3}
+  bgmClips:
+  - {fileID: 8300000, guid: 4e772c697ae8e374b8a089e20ab48ff0, type: 3}
+  - {fileID: 8300000, guid: e2dd299cae50efd4e9b45a8abe798d43, type: 3}
+  - {fileID: 8300000, guid: aa41a6e9e48b17c4fa14086f65253dd9, type: 3}
+  - {fileID: 8300000, guid: fd99ec25717d79b4190eccdf3fa2281a, type: 3}
   volume: 0.413
+  playRandomly: 0
 --- !u!114 &9062480854404737647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,4 +80,4 @@ MonoBehaviour:
   - name: end
     clip: {fileID: 8300000, guid: 61593a45914dc9d41a2c63c5f2519868, type: 3}
     volume: 1
-  masterVolume: 0
+  masterVolume: 0.611
