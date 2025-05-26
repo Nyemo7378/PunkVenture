@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections.Generic;
 
 public class SEManager : MonoBehaviour
@@ -8,14 +8,17 @@ public class SEManager : MonoBehaviour
     [System.Serializable]
     public class SoundEffect
     {
-        public string name;
-        public AudioClip clip;
+        public string name;            // íš¨ê³¼ìŒ ì´ë¦„
+        public AudioClip clip;         // í´ë¦½
+        [Range(0f, 1f)]
+        public float volume = 1.0f;    // ğŸ”Š ê°œë³„ ë³¼ë¥¨
     }
 
-    public List<SoundEffect> soundEffects; // ÀÎ½ºÆåÅÍ¿¡¼­ µî·Ï
-    public float volume = 1.0f;
+    public List<SoundEffect> soundEffects; // ğŸ”§ ì¸ìŠ¤í™í„°ì—ì„œ ë“±ë¡
+    [Range(0f, 1f)]
+    public float masterVolume = 1.0f;      // ğŸšï¸ ì „ì²´ ë§ˆìŠ¤í„° ë³¼ë¥¨
 
-    private Dictionary<string, AudioClip> clipDict;
+    private Dictionary<string, SoundEffect> sfxDict;
     private AudioSource audioSource;
 
     void Awake()
@@ -32,23 +35,24 @@ public class SEManager : MonoBehaviour
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.playOnAwake = false;
 
-        clipDict = new Dictionary<string, AudioClip>();
+        sfxDict = new Dictionary<string, SoundEffect>();
         foreach (var sfx in soundEffects)
         {
-            if (!clipDict.ContainsKey(sfx.name))
-                clipDict.Add(sfx.name, sfx.clip);
+            if (!sfxDict.ContainsKey(sfx.name))
+                sfxDict.Add(sfx.name, sfx);
         }
     }
 
     public void Play(string name)
     {
-        if (clipDict.ContainsKey(name))
+        if (sfxDict.ContainsKey(name))
         {
-            audioSource.PlayOneShot(clipDict[name], volume);
+            SoundEffect sfx = sfxDict[name];
+            audioSource.PlayOneShot(sfx.clip, sfx.volume * masterVolume);
         }
         else
         {
-            Debug.LogWarning($"SEManager: '{name}' È¿°úÀ½ÀÌ ¾ø½À´Ï´Ù.");
+            Debug.LogWarning($"SEManager: '{name}' íš¨ê³¼ìŒì´ ì—†ìŠµë‹ˆë‹¤.");
         }
     }
 }
