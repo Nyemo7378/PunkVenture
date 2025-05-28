@@ -18,11 +18,6 @@ public class GameTimer : MonoBehaviour
     [Range(0f, 10f)] public float scaleSpeed = 2f;
     [Range(0f, 1f)] public float scaleAmount = 0.2f;
 
-    [Header("Ranking System")]
-    public RankingUploader rankingUploader;
-    public RankingDownloader rankingDownloader;
-    public RankingDisplay rankingDisplay;
-    public GameObject rankingPanel;
 
     private float timeLeft;
     private bool isTimeOver = false;
@@ -65,41 +60,11 @@ public class GameTimer : MonoBehaviour
 
         if (endTextObject != null) endTextObject.SetActive(true);
 
-        UploadFinalScoreAndRefreshRanking();
         StartCoroutine(FadeOutTimerText());
         StartCoroutine(AnimateScoreText());
     }
 
-    void UploadFinalScoreAndRefreshRanking()
-    {
-        if (rankingUploader == null || rankingDownloader == null || rankingDisplay == null)
-        {
-            Debug.LogWarning("랭킹 관련 컴포넌트가 연결되지 않음");
-            return;
-        }
 
-        rankingPanel.SetActive(true);
-
-        string playerName = System.Environment.UserName;
-        int finalScore = Score.Instance.score;
-        string ticks = System.DateTime.Now.Ticks.ToString(); // ✅ 고유 업로드 시간
-
-        StartCoroutine(UploadThenDownload(playerName, finalScore, ticks));
-    }
-
-    IEnumerator UploadThenDownload(string name, int score, string ticks)
-    {
-        bool done = false;
-
-        // ✅ ticks 포함해서 정확히 호출
-        rankingUploader.Upload(name, score, ticks, () => { done = true; });
-
-        yield return new WaitUntil(() => done);
-        //yield return new WaitForSeconds(0.1f); // Google 시트 반영 대기
-
-        rankingDisplay.SetLastUploadedEntry(name, score, ticks);
-        rankingDownloader.Download();
-    }
 
     IEnumerator FadeOutTimerText()
     {
