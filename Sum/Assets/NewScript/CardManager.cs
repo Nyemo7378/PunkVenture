@@ -1,4 +1,3 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,23 +7,19 @@ public class CardManager : MonoBehaviour
     Dictionary<int, List<GameObject>> cards;
     Dictionary<int, Vector3> initPos;
 
-    public GameObject cardPrefab;
     public float cardSpacing = 1.2f;
     public float animationDuration = 1.0f;
     public Vector3 tablePosition = new Vector3(0, 2, 0);
     public float tableCardSpacingX = 1.5f;
-    [Header("키셋팅")]
+
     public KeyCode drawKey = KeyCode.Q;
     public int drawPrice = 2;
     public KeyCode checkKey = KeyCode.Space;
-  
-    [Header("Card Layout Settings")]
+
     public Vector3 playerCardStartOffset = new Vector3(-1.2f, -0.5f);
     public float stackCardSpacingY = 0.5f;
-    [Tooltip("최대 몇 줄까지 카드가 쌓일 수 있는지 설정")]
     public int maxStackRows = 2;
     public int maxCardsInTable = 5;
-    [Tooltip("시간 보너스 배율")]
     public float timeBonusRate = 1.0f;
 
     int sortOrder = 32766;
@@ -53,9 +48,11 @@ public class CardManager : MonoBehaviour
         for (int i = 0; i < nums.Count; i++)
         {
             int n = nums[i];
-            GameObject obj = Instantiate(cardPrefab);
-            obj.transform.position = new Vector3(i * cardSpacing, 0, 0) + playerCardStartOffset;
+            GameObject obj = CardPoolManager.Instance.GetCard();
             obj.GetComponent<Card>().SetNumber(n);
+            obj.GetComponent<SpriteRenderer>().sortingOrder = sortOrder--;
+
+            obj.transform.position = new Vector3(i * cardSpacing, 0, 0) + playerCardStartOffset;
             initPos[n] = obj.transform.position;
             cards[n] = new List<GameObject>();
             cards[n].Add(obj);
@@ -64,7 +61,7 @@ public class CardManager : MonoBehaviour
 
         for (int i = 0; i < 9; i++)
         {
-            int cardNum = Random.Range(1, 10); // 숫자는 랜덤
+            int cardNum = Random.Range(1, 10);
 
             List<int> availableStacks = new List<int>();
             foreach (var kv in cards)
@@ -78,10 +75,8 @@ public class CardManager : MonoBehaviour
             }
 
             int targetStack = availableStacks[Random.Range(0, availableStacks.Count)];
-            // 들어갈 스택도 랜덤
 
-
-            GameObject obj = Instantiate(cardPrefab);
+            GameObject obj = CardPoolManager.Instance.GetCard();
             obj.GetComponent<Card>().SetNumber(cardNum);
             obj.GetComponent<SpriteRenderer>().sortingOrder = sortOrder--;
 
@@ -90,7 +85,7 @@ public class CardManager : MonoBehaviour
 
             if (cards[targetStack].Count >= maxStackRows)
             {
-                Destroy(obj);
+                CardPoolManager.Instance.ReturnCard(obj);
                 Debug.Log("더 이상 해당 스택에 카드를 추가할 수 없습니다.");
                 return;
             }
@@ -103,11 +98,12 @@ public class CardManager : MonoBehaviour
     void Update()
     {
         if (!canDraw) return;
+
         if (Input.GetKeyDown(drawKey))
         {
             AddCard();
         }
-        if(Input.GetKeyDown(checkKey))
+        if (Input.GetKeyDown(checkKey))
         {
             CheckAndRemoveCards();
         }
@@ -115,8 +111,8 @@ public class CardManager : MonoBehaviour
 
     public void AddCard()
     {
-        int cardNum = Random.Range(1, 10); // 숫자는 랜덤
-        
+        int cardNum = Random.Range(1, 10);
+
         List<int> availableStacks = new List<int>();
         foreach (var kv in cards)
             if (kv.Value.Count < maxStackRows)
@@ -129,11 +125,10 @@ public class CardManager : MonoBehaviour
         }
 
         int targetStack = availableStacks[Random.Range(0, availableStacks.Count)];
- // 들어갈 스택도 랜덤
 
         if (Score.Instance.SubtractScore(drawPrice))
         {
-            GameObject obj = Instantiate(cardPrefab);
+            GameObject obj = CardPoolManager.Instance.GetCard();
             obj.GetComponent<Card>().SetNumber(cardNum);
             obj.GetComponent<SpriteRenderer>().sortingOrder = sortOrder--;
 
@@ -142,7 +137,7 @@ public class CardManager : MonoBehaviour
 
             if (cards[targetStack].Count >= maxStackRows)
             {
-                Destroy(obj);
+                CardPoolManager.Instance.ReturnCard(obj);
                 Debug.Log("더 이상 해당 스택에 카드를 추가할 수 없습니다.");
                 return;
             }
@@ -156,7 +151,7 @@ public class CardManager : MonoBehaviour
             Debug.Log("점수가 부족하여 카드를 추가할 수 없습니다.");
         }
     }
-    
+
     public void OnCardClicked(Card card)
     {
         int num = card.cardNumber;
@@ -182,7 +177,6 @@ public class CardManager : MonoBehaviour
 
             tableCards.Remove(card.gameObject);
             ReorderTableCards();
-            //CheckAndRemoveCards();
         }
         else
         {
@@ -198,9 +192,9 @@ public class CardManager : MonoBehaviour
             int insertIndex = tableCards.Count;
             tableCards.Insert(insertIndex, card.gameObject);
             ReorderTableCards();
-            //CheckAndRemoveCards();
         }
     }
+
     void RepositionStack(int num)
     {
         for (int i = 0; i < cards[num].Count; i++)
@@ -220,18 +214,17 @@ public class CardManager : MonoBehaviour
             StartCoroutine(FlyInCard(tableCards[i], target));
         }
     }
+
     public void CheckAndRemoveCards()
     {
         int sum = 0;
-        Dictionary<int, int> numberCount = new Dictionary<int, int>(); // 각 숫자의 개수를 저장할 딕셔너리
+        Dictionary<int, int> numberCount = new Dictionary<int, int>();
 
-        // 각 카드 숫자 합산 및 숫자별 개수 세기
         foreach (var card in tableCards)
         {
             int cardNum = card.GetComponent<Card>().GetNumber();
             sum += cardNum;
 
-            // 숫자별 개수 증가
             if (numberCount.ContainsKey(cardNum))
             {
                 numberCount[cardNum]++;
@@ -242,40 +235,33 @@ public class CardManager : MonoBehaviour
             }
         }
 
-        // 카드 합이 10의 배수일 경우에만 처리
         if (sum % 10 == 0 && sum != 0)
         {
-            // 첫 번째 규칙: 기본 점수 계산 (카드 개수의 제곱)
             int basePoints = tableCards.Count * tableCards.Count;
 
-            // 두 번째 규칙: 중복된 숫자에 따른 보너스 점수 계산
             int duplicateBonusPoints = 0;
             foreach (var kv in numberCount)
             {
                 int count = kv.Value;
                 if (count > 1)
                 {
-                    duplicateBonusPoints += count;  // 중복된 숫자 개수에 따라 보너스 추가 (예: 2개 -> 1점, 3개 -> 2점)
+                    duplicateBonusPoints += count;
                 }
             }
 
-            // 기본 점수와 중복 점수를 합산
             int totalPoints = basePoints + duplicateBonusPoints;
 
-            // 세 번째 규칙: 카드의 합이 10의 배수일 때마다 제한 시간 증가
-            int timeBonus = (sum / 10); // 10의 배수마다 증가하는 시간
+            int timeBonus = (sum / 10);
             GameTimer gameTimer = FindObjectOfType<GameTimer>();
             if (gameTimer != null)
             {
-                gameTimer.AddTime(timeBonus);  // 제한 시간에 추가 (10의 배수마다 1초씩 증가)
+                gameTimer.AddTime(timeBonus);
             }
 
-            // 최종 보너스 점수 계산
-            Score.Instance.AddScore(totalPoints);  // 최종 점수 추가
+            Score.Instance.AddScore(totalPoints);
 
             SEManager.Instance.Play("score");
 
-            // 카드 제거 후 재정렬
             foreach (var card in tableCards)
             {
                 StartCoroutine(FlyOutCard(card));
@@ -283,8 +269,6 @@ public class CardManager : MonoBehaviour
             tableCards.Clear();
         }
     }
-
-
 
     int GetCurrentStackKey(GameObject card)
     {
@@ -338,7 +322,7 @@ public class CardManager : MonoBehaviour
             yield return null;
         }
         card.transform.position = target;
-        Destroy(card);
+        CardPoolManager.Instance.ReturnCard(card);
     }
 
     void Shuffle(List<int> list)
