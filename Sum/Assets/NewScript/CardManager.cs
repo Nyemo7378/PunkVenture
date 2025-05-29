@@ -39,7 +39,7 @@ public class CardManager : MonoBehaviour
     {
         cards = new Dictionary<int, List<GameObject>>();
         initPos = new Dictionary<int, Vector3>();
-        Score.Instance.AddScore(30);
+       // Score.Instance.AddScore(30);
 
         List<int> nums = new List<int>();
         for (int i = 1; i < 10; i++) nums.Add(i);
