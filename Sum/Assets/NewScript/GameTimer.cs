@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameTimer : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class GameTimer : MonoBehaviour
 
     [Header("End Game UI")]
     public GameObject endTextObject;
+
+    [Header("Fade Out Buttons on Game End")]
+    public Button drawButton;   // DRAW 버튼 여기 드래그
+    public Button giveButton;   // GIVE 버튼 여기 드래그
 
     [Header("Score Text Animation")]
     [Range(0f, 20f)] public float shakeSpeed = 3f;
@@ -57,14 +62,61 @@ public class GameTimer : MonoBehaviour
 
         CardManager cm = FindObjectOfType<CardManager>();
         if (cm != null) cm.SetDrawEnabled(false);
-
+        {
+            cm.SetDrawEnabled(false);
+            cm.SetInputEnabled(false);  // ← 이거 추가하면 D, G 키 완전 차단!
+        }
         if (endTextObject != null) endTextObject.SetActive(true);
 
+        // 이 아래에 추가 → DRAW, GIVE 버튼 페이드아웃 시작
+        if (drawButton != null)
+            StartCoroutine(FadeOutButton(drawButton));
+
+        if (giveButton != null)
+            StartCoroutine(FadeOutButton(giveButton));
         StartCoroutine(FadeOutTimerText());
         StartCoroutine(AnimateScoreText());
     }
 
 
+    private IEnumerator FadeOutButton(Button btn)
+    {
+        // 1. 즉시 클릭 차단 + Button2 스크립트 비활성화
+        btn.interactable = false;
+
+        Button2 button2Script = btn.GetComponent<Button2>();
+        if (button2Script != null)
+            button2Script.enabled = false;   // ← 이 한 줄로 Button2 완전 정지
+
+        // 2. 이미지 + 텍스트 페이드아웃
+        Image btnImage = btn.image;
+        TextMeshProUGUI btnText = btn.GetComponentInChildren<TextMeshProUGUI>();
+
+        if (btnImage == null) yield break;
+
+        Color imgStart = btnImage.color;
+        Color txtStart = btnText != null ? btnText.color : Color.white;
+
+        float duration = 1f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            float alpha = Mathf.Lerp(1f, 0f, elapsed / duration);
+
+            btnImage.color = new Color(imgStart.r, imgStart.g, imgStart.b, alpha);
+            if (btnText != null)
+                btnText.color = new Color(txtStart.r, txtStart.g, txtStart.b, alpha);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // 완전히 투명하게
+        btnImage.color = new Color(imgStart.r, imgStart.g, imgStart.b, 0f);
+        if (btnText != null)
+            btnText.color = new Color(txtStart.r, txtStart.g, txtStart.b, 0f);
+    }
 
     IEnumerator FadeOutTimerText()
     {

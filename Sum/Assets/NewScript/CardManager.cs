@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CardManager : MonoBehaviour
 {
     Dictionary<int, List<GameObject>> cards;
     Dictionary<int, Vector3> initPos;
+
+    // 맨 위쪽에 추가 (public 변수들 옆에)
+    [Header("Current Table Score UI")]
+    public Text currentScoreText;   // ← 인스펙터에서 레거시 Text 드래그할 거임
 
     public float cardSpacing = 1.2f;
     public float animationDuration = 1.0f;
@@ -21,6 +27,7 @@ public class CardManager : MonoBehaviour
     public int maxStackRows = 2;
     public int maxCardsInTable = 5;
     public float timeBonusRate = 1.0f;
+    private bool canInput = true;
 
     int sortOrder = 32766;
     List<GameObject> tableCards = new List<GameObject>();
@@ -30,13 +37,36 @@ public class CardManager : MonoBehaviour
 
     private bool canDraw = true;
 
+    public void SetInputEnabled(bool enabled)
+    {
+        canInput = enabled;
+    }
+
     public void SetDrawEnabled(bool enabled)
     {
         canDraw = enabled;
     }
 
+    // 이 함수 하나 추가 (아무데나 붙여도 됨)
+    private void UpdateCurrentScoreText()
+    {
+        int sum = 0;
+        foreach (var cardGO in tableCards)
+        {
+            sum += cardGO.GetComponent<Card>().GetNumber();
+        }
+
+        if (currentScoreText != null)
+        {
+            currentScoreText.text = "Current: " + sum;   // 원하는 형식으로 바꿔도 돼!
+                                                         // 예: $"현재 점수: {sum}"  또는  $"합계: {sum}"
+        }
+    }
+
     void Start()
     {
+        UpdateCurrentScoreText();
+
         cards = new Dictionary<int, List<GameObject>>();
         initPos = new Dictionary<int, Vector3>();
        // Score.Instance.AddScore(30);
@@ -97,6 +127,7 @@ public class CardManager : MonoBehaviour
 
     void Update()
     {
+        if (!canInput) return; 
         if (!canDraw) return;
 
         if (Input.GetKeyDown(drawKey))
@@ -154,6 +185,8 @@ public class CardManager : MonoBehaviour
 
     public void OnCardClicked(Card card)
     {
+        if (!canInput) return;
+
         int num = card.cardNumber;
 
         if (tableCards.Count >= maxCardsInTable && !tableCards.Contains(card.gameObject))
@@ -164,6 +197,7 @@ public class CardManager : MonoBehaviour
 
         if (tableCards.Contains(card.gameObject))
         {
+            // 테이블 → 스택으로 되돌리기
             int returnStack = card.lastStackKey;
             if (returnStack != -1)
             {
@@ -177,9 +211,11 @@ public class CardManager : MonoBehaviour
 
             tableCards.Remove(card.gameObject);
             ReorderTableCards();
+            UpdateCurrentScoreText();   // 추가
         }
         else
         {
+            // 스택 → 테이블로 이동
             int curStack = GetCurrentStackKey(card.gameObject);
             if (curStack != -1 && cards[curStack].Contains(card.gameObject))
             {
@@ -189,9 +225,9 @@ public class CardManager : MonoBehaviour
                 RepositionStack(curStack);
             }
 
-            int insertIndex = tableCards.Count;
-            tableCards.Insert(insertIndex, card.gameObject);
+            tableCards.Add(card.gameObject);
             ReorderTableCards();
+            UpdateCurrentScoreText();   // 추가
         }
     }
 
@@ -267,6 +303,7 @@ public class CardManager : MonoBehaviour
                 StartCoroutine(FlyOutCard(card));
             }
             tableCards.Clear();
+            UpdateCurrentScoreText();   // 0으로 리셋
         }
     }
 
