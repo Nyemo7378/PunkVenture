@@ -1,63 +1,45 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SimpleLanguageManager : MonoBehaviour
+public class SimpleLanguageToggle : MonoBehaviour
 {
-    public static SimpleLanguageManager instance;
-
     public GameObject korDetail;
     public GameObject engDetail;
-
-    public Button languageButton;     // 인스펙터에서 버튼 드래그
+    public Button languageButton;
     public Sprite krSprite;
     public Sprite enSprite;
 
     private bool isKorean = true;
 
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-            LoadSavedLanguage();
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    private void LoadSavedLanguage()
-    {
-        isKorean = PlayerPrefs.GetInt("IsKorean", 1) == 1;
-        UpdateDisplay();
-    }
-
     private void Start()
     {
-        // 버튼 연결 (리셋돼도 다시 연결되게)
+        // 저장된 언어 있으면 불러오기 (없으면 한국어 기본)
+        isKorean = PlayerPrefs.GetInt("GameLanguage", 1) == 1;
+        UpdateLanguage();
+
+        // 버튼 연결
         if (languageButton != null)
         {
             languageButton.onClick.RemoveAllListeners();
-            languageButton.onClick.AddListener(ToggleLanguage);
+            languageButton.onClick.AddListener(Toggle);
         }
     }
 
-    public void ToggleLanguage()
+    public void Toggle()
     {
         isKorean = !isKorean;
-        UpdateDisplay();
+        UpdateLanguage();
 
-        PlayerPrefs.SetInt("IsKorean", isKorean ? 1 : 0);
-        PlayerPrefs.Save();
+        // 다음에 게임 켰을 때도 기억
+        PlayerPrefs.SetInt("GameLanguage", isKorean ? 1 : 0);
     }
 
-    private void UpdateDisplay()
+    private void UpdateLanguage()
     {
         korDetail.SetActive(isKorean);
         engDetail.SetActive(!isKorean);
 
+        // 버튼 이미지 바꾸기
         if (languageButton != null && languageButton.image != null)
         {
             languageButton.image.sprite = isKorean ? krSprite : enSprite;
