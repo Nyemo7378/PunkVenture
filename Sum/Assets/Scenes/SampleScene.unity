@@ -566,12 +566,12 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: "1. \uAE30\uBCF8 \uADDC\uCE59\r\n\uCE74\uB4DC\uB294 \uCD5C\uB300 5\uC7A5\uAE4C\uC9C0
     \uC0AC\uC6A9\r. \uD569\uC774 10\uC758 \uBC30\uC218\uC774\uBA74 \uC131\uACF5\r\n\n2.
-    \uC810\uC218\r\n\uACC4\uC0B0\uC2DD: (\uCE74\uB4DC \uC7A5\uC218)^2\r\n\uC608\uC2DC:
-    3\uC7A5 = 9\uC810, 5\uC7A5 = 25\uC810\r\n\uAC19\uC740 \uC22B\uC790\uAC00 \uC788\uC744
-    \uB54C \uCE74\uB4DC 1\uC7A5 \uC911\uBCF5\uB2F9 1\uC810 \uCD94\uAC00\r\n\uC608\uC2DC2:
-    2 + 2 + 2 + 7 + 7 = \uBCF4\uB108\uC2A4 5\uC810\r\n\n3. \uC2DC\uAC04 \uBCF4\uB108\uC2A4\r\n\uD569\uC774
-    10\uC758 \uBC30\uC218\uC77C \uB54C\uB9C8\uB2E4 1\uCD08 \uCD94\uAC00\r\n\uC608\uC2DC:
-    7 + 3 = 10 \u2192 1\uCD08\n4 + 6 + 10 = 20 \u2192 2\uCD08\r\n\n4. \uCD94\uAC00
+    \uC810\uC218\r\n\uACC4\uC0B0\uC2DD: (\uCE74\uB4DC \uC7A5\uC218)^2\r\nex) 3\uC7A5
+    = 9\uC810, 5\uC7A5 = 25\uC810\r\n\uAC19\uC740 \uC22B\uC790\uAC00 \uC788\uC744
+    \uB54C \uCE74\uB4DC 1\uC7A5 \uC911\uBCF5\uB2F9 1\uC810 \uCD94\uAC00\r\nex) 2
+    + 2 + 2 + 7 + 7 = \uBCF4\uB108\uC2A4 5\uC810\r\n\n3. \uC2DC\uAC04 \uBCF4\uB108\uC2A4\r\n\uD569\uC774
+    10\uC758 \uBC30\uC218\uC77C \uB54C\uB9C8\uB2E4 1\uCD08 \uCD94\uAC00\r\nex) 7
+    + 3 = 10 \u2192 1\uCD08\n4 + 6 + 10 = 20 \u2192 2\uCD08\r\n\n4. \uCD94\uAC00
     \uCE74\uB4DC\r\n\uCE74\uB4DC 1\uC7A5 \uCD94\uAC00 \uBF51\uAE30 = 2\uC810 \uC18C\uBAA8\r\n\n[D]
     : Draw, [G] : Give, [R] : Reset\n"
 --- !u!222 &594615373
@@ -582,6 +582,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 594615370}
   m_CullTransparentMesh: 1
+--- !u!1 &626130976
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 626130978}
+  - component: {fileID: 626130977}
+  m_Layer: 0
+  m_Name: LanguageManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &626130977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626130976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dca5df446b8ee4b8e368b2eae2914e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  korDetail: {fileID: 594615370}
+  engDetail: {fileID: 1238514858}
+  languageButton: {fileID: 1348923881}
+  krSprite: {fileID: -862591367, guid: 0790fd1f56fa06545aad49c0cdfb05f4, type: 3}
+  enSprite: {fileID: 1417483497, guid: 0790fd1f56fa06545aad49c0cdfb05f4, type: 3}
+--- !u!4 &626130978
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626130976}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 379.4549, y: 734.7493, z: 5.507917}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &651944460
 GameObject:
   m_ObjectHideFlags: 0
@@ -1453,11 +1502,11 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "1. Basic Rules\r\nUse up to 5 cards\r\nCard sum must be a multiple of
-    10 to succeed\r\n\r\n2. Scoring\r\nBase: (Number of cards)^2\r\nExample: 3 cards
-    = 9, 5 cards = 25\r\nBonus: 1 point per duplicate card\r\nExample: 2+2+2+7+7
-    = 5 bonus points\r\n\r\n3. Time Bonus\r\n+1 second per 10 in sum\r\nExample:
-    7+3=10 \u2192 1s, 4+6+10=20 \u2192 2s\r\n\r\n4. Extra Cards\r\nDraw 1 card by
-    spending 2 points\r\n\r\n[D] : Draw, [G] : Give, [R] : Reset\n"
+    10 to succeed\r\n\r\n2. Scoring\r\nBase: (Number of cards)^2\r\nex) 3 cards =
+    9, 5 cards = 25\r\nBonus: 1 point per duplicate card\r\nex) 2+2+2+7+7 = 5 bonus
+    points\r\n\r\n3. Time Bonus\r\n+1 second per 10 in sum\r\nex) 7+3=10 \u2192 1s,
+    4+6+10=20 \u2192 2s\r\n\r\n4. Extra Cards\r\nDraw 1 card by spending 2 points\r\n\r\n[D]
+    : Draw, [G] : Give, [R] : Reset\n"
 --- !u!222 &1238514861
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1713,7 +1762,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2119415343}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SimpleLanguageManager, Assembly-CSharp
         m_MethodName: ToggleLanguage
         m_Mode: 1
@@ -1779,7 +1828,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -830.4, y: 323.11}
+  m_AnchoredPosition: {x: -830.4, y: 331.3}
   m_SizeDelta: {x: 89.8266, y: 25.2265}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1352431603
@@ -1817,7 +1866,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 645, y: 354}
+  m_AnchoredPosition: {x: 570, y: 354}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1352431605
@@ -2655,58 +2704,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 797, y: 237}
+  m_AnchoredPosition: {x: 722, y: 237}
   m_SizeDelta: {x: 445.7, y: 60.6}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &2119415342
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2119415344}
-  - component: {fileID: 2119415343}
-  m_Layer: 0
-  m_Name: Lang
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2119415343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2119415342}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9dca5df446b8ee4b8e368b2eae2914e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  korDetail: {fileID: 594615370}
-  engDetail: {fileID: 1238514858}
-  languageButton: {fileID: 1348923881}
-  krSprite: {fileID: -862591367, guid: 0790fd1f56fa06545aad49c0cdfb05f4, type: 3}
-  enSprite: {fileID: 1417483497, guid: 0790fd1f56fa06545aad49c0cdfb05f4, type: 3}
---- !u!4 &2119415344
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2119415342}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 379.4549, y: 734.7493, z: 5.507917}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2719,4 +2719,4 @@ SceneRoots:
   - {fileID: 1001481387}
   - {fileID: 29597176}
   - {fileID: 311807258}
-  - {fileID: 2119415344}
+  - {fileID: 626130978}

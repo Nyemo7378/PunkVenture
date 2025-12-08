@@ -8,14 +8,11 @@ public class SimpleLanguageManager : MonoBehaviour
     public GameObject korDetail;
     public GameObject engDetail;
 
-    // 버튼 하나만 할당
-    public Button languageButton;
-
-    // 버튼 안에 들어갈 두 개의 스프라이트 (너가 이미 만든 이미지)
+    public Button languageButton;     // 인스펙터에서 버튼 드래그
     public Sprite krSprite;
     public Sprite enSprite;
 
-    private bool isKorean = true;  // 현재 한국어인지
+    private bool isKorean = true;
 
     private void Awake()
     {
@@ -37,7 +34,16 @@ public class SimpleLanguageManager : MonoBehaviour
         UpdateDisplay();
     }
 
-    // 이 함수 하나만 버튼에 연결하면 끝!!
+    private void Start()
+    {
+        // 버튼 연결 (리셋돼도 다시 연결되게)
+        if (languageButton != null)
+        {
+            languageButton.onClick.RemoveAllListeners();
+            languageButton.onClick.AddListener(ToggleLanguage);
+        }
+    }
+
     public void ToggleLanguage()
     {
         isKorean = !isKorean;
@@ -49,11 +55,9 @@ public class SimpleLanguageManager : MonoBehaviour
 
     private void UpdateDisplay()
     {
-        // 텍스트 토글
         korDetail.SetActive(isKorean);
         engDetail.SetActive(!isKorean);
 
-        // 버튼 이미지 바꾸기
         if (languageButton != null && languageButton.image != null)
         {
             languageButton.image.sprite = isKorean ? krSprite : enSprite;
