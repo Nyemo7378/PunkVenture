@@ -6,16 +6,16 @@ using UnityEngine.UI;
 
 public class CardManager : MonoBehaviour
 {
-    Dictionary<int, List<GameObject>> cards;
-    Dictionary<int, Vector3> initPos;
+    public Dictionary<int, List<GameObject>> cards;
+    public Dictionary<int, Vector3> initPos;
 
     // 맨 위쪽에 추가 (public 변수들 옆에)
     [Header("Current Table Score UI")]
     public Text currentScoreText;   // ← 인스펙터에서 레거시 Text 드래그할 거임
 
     // CardManager.cs 맨 위에 변수 추가/수정
-    private bool isChecking = false;      // ← 기존 있었으면 그대로
-    private bool isProcessingCards = false;  // ← 이거 새로 추가 (중요!!!)
+    public bool isChecking = false;      // ← 기존 있었으면 그대로
+    public bool isProcessingCards = false;  // ← 이거 새로 추가 (중요!!!)
     public float cardSpacing = 1.2f;
     public float animationDuration = 1.0f;
     public Vector3 tablePosition = new Vector3(0, 2, 0);
@@ -30,15 +30,15 @@ public class CardManager : MonoBehaviour
     public int maxStackRows = 2;
     public int maxCardsInTable = 5;
     public float timeBonusRate = 1.0f;
-    private bool canInput = true;
-    private int shakingCardsCount = 0;   // ← 이거 추가!!
-    int sortOrder = 32766;
-    List<GameObject> tableCards = new List<GameObject>();
+    public bool canInput = true;
+    public int shakingCardsCount = 0;   // ← 이거 추가!!
+    public int sortOrder = 32766;
+    public List<GameObject> tableCards = new List<GameObject>();
 
     public Transform cardEntryPoint;
     public Transform cardExitPoint;
 
-    private bool canDraw = true;
+    public bool canDraw = true;
 
     public void SetInputEnabled(bool enabled)
     {
@@ -51,7 +51,7 @@ public class CardManager : MonoBehaviour
     }
 
     // 이 함수 하나 추가 (아무데나 붙여도 됨)
-    private void UpdateCurrentScoreText()
+    public void UpdateCurrentScoreText()
     {
         if (currentScoreText == null) return;
 
@@ -66,7 +66,7 @@ public class CardManager : MonoBehaviour
         currentScoreText.text = "table: " + sum;   // ← 여기만 "Current:" → "table:" 로 변경
     }
 
-    void Start()
+    public void Start()
     {
         UpdateCurrentScoreText();
 
@@ -128,7 +128,7 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    void Update()
+    public void Update()
     {
         if (!canInput || isProcessingCards) return;   // ← isProcessingCards 추가!
 
@@ -230,7 +230,7 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    void RepositionStack(int num)
+    public void RepositionStack(int num)
     {
         for (int i = 0; i < cards[num].Count; i++)
         {
@@ -240,7 +240,7 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    void ReorderTableCards()
+    public void ReorderTableCards()
     {
         float startX = tablePosition.x - ((tableCards.Count - 1) * tableCardSpacingX / 2f);
         for (int i = 0; i < tableCards.Count; i++)
@@ -304,14 +304,14 @@ public class CardManager : MonoBehaviour
             isProcessingCards = false;
         }
     }
-    private IEnumerator WaitAndFinishProcessing(float waitTime)
+    public IEnumerator WaitAndFinishProcessing(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
 
         isChecking = false;
         isProcessingCards = false;
     }
-    private IEnumerator ProcessSuccessCards()
+    public IEnumerator ProcessSuccessCards()
     {
         // 실제로 카드 날리기
         foreach (var card in tableCards.ToArray())  // ToArray() 중요! 리스트 변경 중 안전하게
@@ -330,7 +330,7 @@ public class CardManager : MonoBehaviour
         isProcessingCards = false;
     }
     // 4. ShakeTableCards() 맨 처음에 카운트 초기화
-    private void ShakeTableCards()
+    public void ShakeTableCards()
     {
         shakingCardsCount = tableCards.Count;   // ← 이 줄 추가!!
 
@@ -353,7 +353,7 @@ public class CardManager : MonoBehaviour
     }
 
     // 2. 새 코루틴: 흔들기 + 끝난 후 자동 정렬까지!
-    private IEnumerator ShakeAndRestore(GameObject cardGO)
+    public IEnumerator ShakeAndRestore(GameObject cardGO)
     {
         Vector3 originalPos = cardGO.transform.position;
         float duration = 0.5f;
@@ -388,7 +388,7 @@ public class CardManager : MonoBehaviour
     }
 
     // 1. ShakeCard 코루틴을 이걸로 완전 교체 (핵심!!!)
-    private IEnumerator ShakeCard(GameObject cardGO)
+    public IEnumerator ShakeCard(GameObject cardGO)
     {
         Card card = cardGO.GetComponent<Card>();
         if (card == null || card.IsMoving()) yield break;  // 이미 이동 중이면 흔들지 말고 패스
@@ -417,14 +417,14 @@ public class CardManager : MonoBehaviour
         // 흔들기 끝 → 이동 다시 허용
         card.SetMoving(false);
     }
-    int GetCurrentStackKey(GameObject card)
+    public int GetCurrentStackKey(GameObject card)
     {
         foreach (var kv in cards)
             if (kv.Value.Contains(card)) return kv.Key;
         return -1;
     }
 
-    void UpdateColliders(int num)
+    public void UpdateColliders(int num)
     {
         if (!cards.ContainsKey(num)) return;
         int count = cards[num].Count;
@@ -472,7 +472,7 @@ public class CardManager : MonoBehaviour
         CardPoolManager.Instance.ReturnCard(card);
     }
 
-    void Shuffle(List<int> list)
+    public void Shuffle(List<int> list)
     {
         for (int i = list.Count - 1; i > 0; i--)
         {

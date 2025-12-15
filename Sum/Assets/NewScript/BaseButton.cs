@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
 
-public class Button2 : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class BaseButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public Image targetImage;
     public Sprite defaultSprite;

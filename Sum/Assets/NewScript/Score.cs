@@ -45,7 +45,7 @@ public class Score : MonoBehaviour
     }
 
     // UI 텍스트에 점수 반영
-    void UpdateScoreText()
+    public void UpdateScoreText()
     {
         if (scoreText != null)
         {

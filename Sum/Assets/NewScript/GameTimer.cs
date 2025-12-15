@@ -27,8 +27,8 @@ public class GameTimer : MonoBehaviour
     [Range(0f, 10f)] public float scaleSpeed = 4f;
     [Range(0f, 1f)] public float scaleAmount = 0.15f;
 
-    private float timeLeft;
-    private bool isTimeOver = false;
+    public float timeLeft;
+    public bool isTimeOver = false;
 
     void Start()
     {
@@ -129,7 +129,7 @@ public class GameTimer : MonoBehaviour
     IEnumerator FadeOutButton(Button btn)
     {
         btn.interactable = false;
-        Button2 b2 = btn.GetComponent<Button2>();
+        BaseButton b2 = btn.GetComponent<BaseButton>();
         if (b2) b2.enabled = false;
 
         Image img = btn.image;

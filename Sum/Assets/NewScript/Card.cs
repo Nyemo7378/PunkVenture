@@ -1,4 +1,4 @@
-
+// Card.cs (수정 버전: 호버 시에만 breathing, 이동 후 자동 breathing 버그 고침)
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,17 +14,6 @@ public class Card : MonoBehaviour
     public float animationDuration = 1.0f;
     private bool isMoving = false;
 
-    public void SetMoving(bool value)
-    {
-        isMoving = value;
-        SetInteractable(!value);
-    }
-
-    public bool IsMoving()
-    {
-        return isMoving;
-    }
-
     private bool interactable = true;
 
     void Start()
@@ -37,34 +26,50 @@ public class Card : MonoBehaviour
     {
         if (!interactable) return;
 
-        if (isHovered)
+        // 호버 + 이동 안 할 때만 breathing!
+        if (isHovered && !isMoving)
         {
             transform.localScale = Vector3.Lerp(originalScale, targetScale, Mathf.PingPong(Time.time * animationDuration, 1));
         }
         else
         {
+            // 호버 없거나 이동 중이면 고정 스케일
             transform.localScale = originalScale;
         }
     }
 
     void OnMouseEnter()
     {
-        if (!interactable) return;
+        // 이동 중이거나 interactable 아니면 호버 무시
+        if (!interactable || isMoving) return;
         isHovered = true;
     }
 
     void OnMouseExit()
     {
-        if (!interactable) return;
         isHovered = false;
     }
 
     void OnMouseDown()
     {
-        if (!interactable) return;
+        if (!interactable || isMoving) return;  // 이동 중 클릭 무시
 
         SEManager.Instance.Play("click");
         FindObjectOfType<CardManager>().OnCardClicked(this);
+    }
+
+    public void SetMoving(bool value)
+    {
+        isMoving = value;
+        SetInteractable(!value);
+
+        // 핵심: 이동 시작 시 호버 강제 초기화 (자동 breathing 방지)
+        if (value) isHovered = false;
+    }
+
+    public bool IsMoving()
+    {
+        return isMoving;
     }
 
     public int GetNumber() => cardNumber;
@@ -95,10 +100,17 @@ public class Card : MonoBehaviour
     public void SetInteractable(bool value)
     {
         interactable = value;
+
+        // 비활성화 시 호버 초기화
+        if (!value) isHovered = false;
     }
 
     public void Explode(Vector2 forceDir, float forcePower, float torque = 0f)
     {
+        // 폭발 시 호버 초기화
+        isHovered = false;
+        isMoving = true;  // 폭발도 이동으로 취급
+
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if (rb == null)
             rb = gameObject.AddComponent<Rigidbody2D>();
