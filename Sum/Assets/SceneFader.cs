@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 public class SceneFader : MonoBehaviour
 {
     public static SceneFader Instance;
-
     public Image fadeImage;
 
     [Header("페이드 속도 설정")]
@@ -50,17 +49,36 @@ public class SceneFader : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Canvas newCanvas = FindObjectOfType<Canvas>();
-        if (newCanvas != null && parentCanvas != null)
+        // 오브젝트 활성화 (메뉴 씬에서도 작동하도록)
+        gameObject.SetActive(true);
+
+        // 새 씬에서 Canvas 찾기
+        Canvas[] canvases = FindObjectsOfType<Canvas>();
+        Canvas highestCanvas = null;
+        int highestOrder = -1;
+
+        foreach (Canvas c in canvases)
         {
-            transform.SetParent(newCanvas.transform, false);
+            if (c.sortingOrder > highestOrder)
+            {
+                highestOrder = c.sortingOrder;
+                highestCanvas = c;
+            }
+        }
+
+        if (highestCanvas != null)
+        {
+            transform.SetParent(highestCanvas.transform, false);
+            parentCanvas = highestCanvas;
             parentCanvas.sortingOrder = 9999;
         }
 
+        // 씬 로드 직후 검정 화면에서 시작
         if (fadeImage != null)
         {
-            fadeImage.color = new Color(0, 0, 0, 1f);  // 강제 검정 시작
-            StartCoroutine(FadeIn());
+            fadeImage.color = new Color(0, 0, 0, 1f);  // 완전 검정
+            // fadeImage.raycastTarget = true;  ← 이 줄 삭제!
+            StartCoroutine(FadeIn());                   // 검정 → 투명
         }
     }
 
@@ -77,6 +95,9 @@ public class SceneFader : MonoBehaviour
 
     private IEnumerator FadeIn()
     {
+        // ★ 페이드 인 시작 전에 클릭 허용
+        fadeImage.raycastTarget = false;
+
         float elapsed = 0f;
 
         while (elapsed < fadeInDuration)
@@ -103,11 +124,11 @@ public class SceneFader : MonoBehaviour
             yield return null;
         }
 
-        fadeImage.color = new Color(0, 0, 0, 1f);
+        fadeImage.color = new Color(0, 0, 0, 1f);  // 완전 검정
 
-        // 씬 로드
+        // 씬 즉시 로드
         SceneManager.LoadScene(sceneName);
 
-        // OnSceneLoaded에서 자동 FadeIn 실행
+        // OnSceneLoaded에서 자동으로 페이드 인 실행됨
     }
 }

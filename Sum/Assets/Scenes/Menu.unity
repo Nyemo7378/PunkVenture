@@ -919,7 +919,7 @@ MonoBehaviour:
     9, 5 cards = 25\r\nBonus: 1 point per duplicate card\r\nex) 2+2+2+7+7 = 5 bonus
     points\r\n\r\n3. Time Bonus\r\n+1 second per 10 in sum\r\nex) 7+3=10 \u2192 1s,
     4+6+10=20 \u2192 2s\r\n\r\n4. Extra Cards\r\nDraw 1 card by spending 2 points\r\n\r\n[D]
-    : Draw, [G] : Give, [R] : Reset\n"
+    : Draw, [G] : Give, [M] : Menu, [R] : Reset\n"
 --- !u!222 &1023687150
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -943,7 +943,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1053122393
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1416,7 +1416,7 @@ MonoBehaviour:
     10\uC758 \uBC30\uC218\uC77C \uB54C\uB9C8\uB2E4 1\uCD08 \uCD94\uAC00\r\nex) 7
     + 3 = 10 \u2192 1\uCD08\n4 + 6 + 10 = 20 \u2192 2\uCD08\r\n\n4. \uCD94\uAC00
     \uCE74\uB4DC\r\n\uCE74\uB4DC 1\uC7A5 \uCD94\uAC00 \uBF51\uAE30 = 2\uC810 \uC18C\uBAA8\r\n\n[D]
-    : Draw, [G] : Give, [R] : Reset\n"
+    : Draw, [G] : Give, [M] : Menu, [R] : Reset\n"
 --- !u!222 &1544029006
 CanvasRenderer:
   m_ObjectHideFlags: 0

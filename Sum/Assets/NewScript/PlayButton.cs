@@ -1,44 +1,34 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
-public class PlayButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
+public class PlayButton : MonoBehaviour, IPointerUpHandler
 {
-    public string sceneName = "GameScene";  // 이동할 씬 이름 (인스펙터에서 설정)
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        // 클릭 시 효과음 (원하면 추가)
-        // SEManager.Instance.Play("click");
-    }
+    public string sceneName = "SampleScene";  // 이동할 씬 이름 (인스펙터에서 설정)
+    private bool isTransitioning = false;
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        // 페이드하면서 씬 전환
-        if (SceneFader.Instance != null)
-        {
-            SceneFader.Instance.FadeToScene(sceneName);
-        }
-        else
-        {
-            // SceneFader 없으면 바로 전환 (백업)
-            UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
-        }
+        if (isTransitioning) return;
+
+        isTransitioning = true;
+
+        // 즉시 씬 전환 (페이드 아웃 없음)
+        SceneManager.LoadScene(sceneName);
     }
 
     private void Update()
     {
-        // Space 키로도 플레이 가능 (페이드 적용)
+        // Space 키로도 플레이 가능
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (SceneFader.Instance != null)
-            {
-                SceneFader.Instance.FadeToScene(sceneName);
-            }
-            else
-            {
-                UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
-            }
+            if (isTransitioning) return;
+
+            isTransitioning = true;
+            SEManager.Instance.Play("click");
+            // 즉시 씬 전환 (페이드 아웃 없음)
+            SceneManager.LoadScene(sceneName);
         }
     }
 }

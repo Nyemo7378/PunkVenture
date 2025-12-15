@@ -30,9 +30,14 @@ public class MenuButton : MonoBehaviour
         SceneManager.LoadScene("Menu");
     }
 
-    // (옵션) 다른 스크립트에서 수동으로 호출하고 싶을 때
-    public void LoadTitleScene()
+
+    private void Update()
     {
-        SceneManager.LoadScene("Menu");
+        // Space 키로도 플레이 가능
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            SEManager.Instance.Play("click");
+            GoToTitleScene();
+        }
     }
 }

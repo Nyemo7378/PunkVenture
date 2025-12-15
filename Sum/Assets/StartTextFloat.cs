@@ -75,12 +75,6 @@ public class StartTextFloat : MonoBehaviour
             float angle = Mathf.Sin(Time.time * rotationSpeed * 0.1f) * rotationAmount;
             rectTrans.localRotation = Quaternion.Euler(0, 0, angle);
         }
-
-        // 스페이스 누르면 즉시 사라짐
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            FadeOutAndHide();
-        }
     }
 
     // 텍스트 서서히 등장
@@ -99,28 +93,4 @@ public class StartTextFloat : MonoBehaviour
         }
     }
 
-    // 스페이스 누를 때 페이드 아웃 + 숨김
-    public void FadeOutAndHide()
-    {
-        StopAllCoroutines();
-        StartCoroutine(FadeOut());
-    }
-
-    private System.Collections.IEnumerator FadeOut()
-    {
-        float elapsed = 0f;
-        float duration = 0.3f;  // 빠른 페이드 아웃
-        Color startColor = textComp.color;
-
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            Color c = startColor;
-            c.a = Mathf.Lerp(1f, 0f, elapsed / duration);
-            textComp.color = c;
-            yield return null;
-        }
-
-        gameObject.SetActive(false);  // 완전 숨김
-    }
 }
