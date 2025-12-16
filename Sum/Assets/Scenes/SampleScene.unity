@@ -134,10 +134,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundObject
       objectReference: {fileID: 0}
-    - target: {fileID: 5032416848883119146, guid: 4fa1eebb8d012b247b0677387892c66c, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
     - target: {fileID: 5413515012322205187, guid: 4fa1eebb8d012b247b0677387892c66c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1854.2603
