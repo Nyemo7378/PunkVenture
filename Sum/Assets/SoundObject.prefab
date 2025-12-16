@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5413515012322205187
 Transform:
@@ -80,4 +80,7 @@ MonoBehaviour:
   - name: end
     clip: {fileID: 8300000, guid: 61593a45914dc9d41a2c63c5f2519868, type: 3}
     volume: 1
+  - name: fail
+    clip: {fileID: 8300000, guid: c602dd9f48bde1042839b148f3f27ac5, type: 3}
+    volume: 0.726
   masterVolume: 0.611
